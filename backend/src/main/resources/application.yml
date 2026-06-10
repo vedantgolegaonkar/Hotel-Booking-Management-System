@@ -1,0 +1,27 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: resort-management-backend
+  datasource:
+    url: jdbc:postgresql://db.mireycitkqcopcbxpvbk.supabase.co:5432/postgres
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: Vedant@110219998
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  h2:
+    console:
+      enabled: false
+
+jwt:
+  secret: 407F164096F03EE7A71AFB8CB9A5F89BE6FF7A54947E9ACF986A8D00E2BE762B
+  access-token-expiration-ms: 900000
+  refresh-token-expiration-ms: 604800000

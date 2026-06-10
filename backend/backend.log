@@ -1,0 +1,2461 @@
+> Task :compileJava UP-TO-DATE
+> Task :processResources UP-TO-DATE
+> Task :classes UP-TO-DATE
+> Task :resolveMainClassName
+
+> Task :bootRun
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.6)
+
+2026-06-10T13:20:10.146+05:30  INFO 266122 --- [resort-management-backend] [           main] c.resort.management.BackendApplication   : Starting BackendApplication using Java 21.0.11 with PID 266122 (/home/theycallmegenius/Downloads/Herambh Software Technologies and Solutions/Products/Hotel Booking Management System/backend/build/classes/java/main started by theycallmegenius in /home/theycallmegenius/Downloads/Herambh Software Technologies and Solutions/Products/Hotel Booking Management System/backend)
+2026-06-10T13:20:10.149+05:30  INFO 266122 --- [resort-management-backend] [           main] c.resort.management.BackendApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-06-10T13:20:10.744+05:30  INFO 266122 --- [resort-management-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-10T13:20:10.819+05:30  INFO 266122 --- [resort-management-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 67 ms. Found 12 JPA repository interfaces.
+2026-06-10T13:20:11.331+05:30  INFO 266122 --- [resort-management-backend] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+2026-06-10T13:20:11.342+05:30  INFO 266122 --- [resort-management-backend] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-06-10T13:20:11.343+05:30  INFO 266122 --- [resort-management-backend] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.21]
+2026-06-10T13:20:11.380+05:30  INFO 266122 --- [resort-management-backend] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1189 ms
+2026-06-10T13:20:11.509+05:30  INFO 266122 --- [resort-management-backend] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-06-10T13:20:11.548+05:30  INFO 266122 --- [resort-management-backend] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.12.Final
+2026-06-10T13:20:11.917+05:30  INFO 266122 --- [resort-management-backend] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-10T13:20:11.942+05:30  INFO 266122 --- [resort-management-backend] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-06-10T13:20:16.317+05:30  INFO 266122 --- [resort-management-backend] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4d0abb23
+2026-06-10T13:20:16.321+05:30  INFO 266122 --- [resort-management-backend] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-06-10T13:20:16.880+05:30  WARN 266122 --- [resort-management-backend] [           main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-10T13:20:17.740+05:30  INFO 266122 --- [resort-management-backend] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://db.mireycitkqcopcbxpvbk.supabase.co:5432/postgres]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.6
+	Default catalog/schema: postgres/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-10T13:20:19.071+05:30  INFO 266122 --- [resort-management-backend] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-10T13:20:21.010+05:30  INFO 266122 --- [resort-management-backend] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-10T13:20:21.157+05:30  INFO 266122 --- [resort-management-backend] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-06-10T13:20:21.452+05:30  INFO 266122 --- [resort-management-backend] [           main] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-06-10T13:20:21.453+05:30  WARN 266122 --- [resort-management-backend] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-06-10T13:20:22.442+05:30  WARN 266122 --- [resort-management-backend] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-10T13:20:23.093+05:30  INFO 266122 --- [resort-management-backend] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
+2026-06-10T13:20:23.098+05:30  INFO 266122 --- [resort-management-backend] [           main] c.resort.management.BackendApplication   : Started BackendApplication in 13.35 seconds (process running for 13.679)
+Hibernate: 
+    select
+        count(*) 
+    from
+        roles r1_0
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.description,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.name=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.description,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.name=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.description,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.name=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.description,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.name=?
+Hibernate: 
+    select
+        count(*) 
+    from
+        users u1_0
+Hibernate: 
+    select
+        count(*) 
+    from
+        room_categories rc1_0
+Hibernate: 
+    select
+        count(*) 
+    from
+        rooms r1_0
+Hibernate: 
+    select
+        count(*) 
+    from
+        coupons c1_0
+Hibernate: 
+    select
+        rc1_0.id,
+        rc1_0.base_price,
+        rc1_0.capacity,
+        rc1_0.description,
+        rc1_0.name 
+    from
+        room_categories rc1_0 
+    where
+        rc1_0.name=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    delete 
+    from
+        room_category_images 
+    where
+        category_id=?
+Hibernate: 
+    insert 
+    into
+        room_category_images
+        (category_id, image_url) 
+    values
+        (?, ?)
+2026-06-10T13:20:36.563+05:30  INFO 266122 --- [resort-management-backend] [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-06-10T13:20:36.563+05:30  INFO 266122 --- [resort-management-backend] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-06-10T13:20:36.565+05:30  INFO 266122 --- [resort-management-backend] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+Hibernate: 
+    select
+        rc1_0.id,
+        rc1_0.base_price,
+        rc1_0.capacity,
+        rc1_0.description,
+        rc1_0.name 
+    from
+        room_categories rc1_0
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        rc1_0.id,
+        rc1_0.base_price,
+        rc1_0.capacity,
+        rc1_0.description,
+        rc1_0.name 
+    from
+        room_categories rc1_0
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        rc1_0.id,
+        rc1_0.base_price,
+        rc1_0.capacity,
+        rc1_0.description,
+        rc1_0.name,
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_categories rc1_0 
+    left join
+        room_category_amenities a1_0 
+            on rc1_0.id=a1_0.category_id 
+    where
+        rc1_0.id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        rc1_0.id,
+        rc1_0.base_price,
+        rc1_0.capacity,
+        rc1_0.description,
+        rc1_0.name,
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_categories rc1_0 
+    left join
+        room_category_amenities a1_0 
+            on rc1_0.id=a1_0.category_id 
+    where
+        rc1_0.id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        rc1_0.id,
+        rc1_0.base_price,
+        rc1_0.capacity,
+        rc1_0.description,
+        rc1_0.name 
+    from
+        room_categories rc1_0
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        rci1_0.id,
+        rci1_0.blocked_count,
+        rci1_0.booked_count,
+        rci1_0.category_id,
+        rci1_0.inventory_date,
+        rci1_0.total_inventory,
+        rci1_0.version 
+    from
+        room_category_inventory rci1_0 
+    where
+        rci1_0.category_id=? 
+        and rci1_0.inventory_date between ? and ?
+Hibernate: 
+    select
+        count(r1_0.id) 
+    from
+        rooms r1_0 
+    where
+        r1_0.category_id=?
+Hibernate: 
+    select
+        rci1_0.id,
+        rci1_0.blocked_count,
+        rci1_0.booked_count,
+        rci1_0.category_id,
+        rci1_0.inventory_date,
+        rci1_0.total_inventory,
+        rci1_0.version 
+    from
+        room_category_inventory rci1_0 
+    where
+        rci1_0.category_id=? 
+        and rci1_0.inventory_date between ? and ?
+Hibernate: 
+    select
+        count(r1_0.id) 
+    from
+        rooms r1_0 
+    where
+        r1_0.category_id=?
+Hibernate: 
+    select
+        rci1_0.id,
+        rci1_0.blocked_count,
+        rci1_0.booked_count,
+        rci1_0.category_id,
+        rci1_0.inventory_date,
+        rci1_0.total_inventory,
+        rci1_0.version 
+    from
+        room_category_inventory rci1_0 
+    where
+        rci1_0.category_id=? 
+        and rci1_0.inventory_date between ? and ?
+Hibernate: 
+    select
+        count(r1_0.id) 
+    from
+        rooms r1_0 
+    where
+        r1_0.category_id=?
+Hibernate: 
+    select
+        rc1_0.id,
+        rc1_0.base_price,
+        rc1_0.capacity,
+        rc1_0.description,
+        rc1_0.name,
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_categories rc1_0 
+    left join
+        room_category_amenities a1_0 
+            on rc1_0.id=a1_0.category_id 
+    where
+        rc1_0.id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        rc1_0.id,
+        rc1_0.base_price,
+        rc1_0.capacity,
+        rc1_0.description,
+        rc1_0.name,
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_categories rc1_0 
+    left join
+        room_category_amenities a1_0 
+            on rc1_0.id=a1_0.category_id 
+    where
+        rc1_0.id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.code,
+        c1_0.discount_type,
+        c1_0.discount_value,
+        c1_0.expiry_date,
+        c1_0.is_active,
+        c1_0.max_discount_value,
+        c1_0.min_booking_value,
+        c1_0.start_date,
+        c1_0.usage_limit,
+        c1_0.used_count 
+    from
+        coupons c1_0 
+    where
+        c1_0.code=?
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.code,
+        c1_0.discount_type,
+        c1_0.discount_value,
+        c1_0.expiry_date,
+        c1_0.is_active,
+        c1_0.max_discount_value,
+        c1_0.min_booking_value,
+        c1_0.start_date,
+        c1_0.usage_limit,
+        c1_0.used_count 
+    from
+        coupons c1_0 
+    where
+        c1_0.code=?
+Hibernate: 
+    select
+        g1_0.id,
+        g1_0.address,
+        g1_0.city,
+        g1_0.email,
+        g1_0.first_name,
+        g1_0.gstin,
+        g1_0.id_proof_type,
+        g1_0.id_proof_url,
+        g1_0.last_name,
+        g1_0.mobile,
+        g1_0.state_code,
+        g1_0.total_spend,
+        g1_0.total_stays 
+    from
+        guests g1_0 
+    where
+        g1_0.email=?
+Hibernate: 
+    select
+        rc1_0.id,
+        rc1_0.base_price,
+        rc1_0.capacity,
+        rc1_0.description,
+        rc1_0.name,
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_categories rc1_0 
+    left join
+        room_category_amenities a1_0 
+            on rc1_0.id=a1_0.category_id 
+    where
+        rc1_0.id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        rci1_0.id,
+        rci1_0.blocked_count,
+        rci1_0.booked_count,
+        rci1_0.category_id,
+        rci1_0.inventory_date,
+        rci1_0.total_inventory,
+        rci1_0.version 
+    from
+        room_category_inventory rci1_0 
+    where
+        rci1_0.category_id=? 
+        and rci1_0.inventory_date between ? and ? 
+    for
+        no key update of rci1_0
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.code,
+        c1_0.discount_type,
+        c1_0.discount_value,
+        c1_0.expiry_date,
+        c1_0.is_active,
+        c1_0.max_discount_value,
+        c1_0.min_booking_value,
+        c1_0.start_date,
+        c1_0.usage_limit,
+        c1_0.used_count 
+    from
+        coupons c1_0 
+    where
+        c1_0.code=?
+2026-06-10T13:26:25.234+05:30  INFO 266122 --- [resort-management-backend] [nio-8080-exec-2] c.r.m.booking.service.BookingService     : Booking initialized: Reference=RES-20260610-0181, Temp ID=5cca20d9-594b-4164-af61-562d3b9fd5b6, Razorpay Order ID=order_mock_fde50f15-9a4
+Hibernate: 
+    insert 
+    into
+        guests
+        (address, city, email, first_name, gstin, id_proof_type, id_proof_url, last_name, mobile, state_code, total_spend, total_stays, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        bookings
+        (adults_count, base_amount, booking_reference, booking_status, category_id, check_in_date, check_out_date, children_count, coupon_id, created_at, discount_amount, grand_total, guest_id, tax_amount, updated_at, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        payments
+        (amount, booking_id, payment_method, payment_status, razorpay_order_id, razorpay_payment_id, razorpay_signature, transaction_time, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    update
+        room_category_inventory 
+    set
+        blocked_count=?,
+        booked_count=?,
+        category_id=?,
+        inventory_date=?,
+        total_inventory=?,
+        version=? 
+    where
+        id=? 
+        and version=?
+Hibernate: 
+    update
+        coupons 
+    set
+        code=?,
+        discount_type=?,
+        discount_value=?,
+        expiry_date=?,
+        is_active=?,
+        max_discount_value=?,
+        min_booking_value=?,
+        start_date=?,
+        usage_limit=?,
+        used_count=? 
+    where
+        id=?
+Hibernate: 
+    select
+        p1_0.id,
+        p1_0.amount,
+        p1_0.booking_id,
+        p1_0.payment_method,
+        p1_0.payment_status,
+        p1_0.razorpay_order_id,
+        p1_0.razorpay_payment_id,
+        p1_0.razorpay_signature,
+        p1_0.transaction_time 
+    from
+        payments p1_0 
+    join
+        bookings b1_0 
+            on b1_0.id=p1_0.booking_id 
+    where
+        p1_0.razorpay_order_id=? 
+        or b1_0.booking_reference=?
+Hibernate: 
+    select
+        b1_0.id,
+        b1_0.adults_count,
+        b1_0.base_amount,
+        b1_0.booking_reference,
+        b1_0.booking_status,
+        b1_0.category_id,
+        c1_0.id,
+        c1_0.base_price,
+        c1_0.capacity,
+        c1_0.description,
+        c1_0.name,
+        a1_0.category_id,
+        a1_0.amenity,
+        b1_0.check_in_date,
+        b1_0.check_out_date,
+        b1_0.children_count,
+        c2_0.id,
+        c2_0.code,
+        c2_0.discount_type,
+        c2_0.discount_value,
+        c2_0.expiry_date,
+        c2_0.is_active,
+        c2_0.max_discount_value,
+        c2_0.min_booking_value,
+        c2_0.start_date,
+        c2_0.usage_limit,
+        c2_0.used_count,
+        b1_0.created_at,
+        b1_0.discount_amount,
+        b1_0.grand_total,
+        b1_0.guest_id,
+        g1_0.id,
+        g1_0.address,
+        g1_0.city,
+        g1_0.email,
+        g1_0.first_name,
+        g1_0.gstin,
+        g1_0.id_proof_type,
+        g1_0.id_proof_url,
+        g1_0.last_name,
+        g1_0.mobile,
+        g1_0.state_code,
+        g1_0.total_spend,
+        g1_0.total_stays,
+        b1_0.tax_amount,
+        b1_0.updated_at 
+    from
+        bookings b1_0 
+    join
+        room_categories c1_0 
+            on c1_0.id=b1_0.category_id 
+    left join
+        room_category_amenities a1_0 
+            on c1_0.id=a1_0.category_id 
+    left join
+        coupons c2_0 
+            on c2_0.id=b1_0.coupon_id 
+    join
+        guests g1_0 
+            on g1_0.id=b1_0.guest_id 
+    where
+        b1_0.id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.id,
+        i1_0.base_tariff_total,
+        i1_0.booking_id,
+        i1_0.cgst_amount,
+        i1_0.created_at,
+        i1_0.discount_applied,
+        i1_0.grand_total,
+        i1_0.gst_percentage,
+        i1_0.gstin_resort,
+        i1_0.igst_amount,
+        i1_0.invoice_date,
+        i1_0.invoice_number,
+        i1_0.place_of_supply,
+        i1_0.sac_code,
+        i1_0.sgst_amount 
+    from
+        invoices i1_0 
+    where
+        i1_0.booking_id=?
+Hibernate: 
+    select
+        count(*) 
+    from
+        invoices i1_0
+2026-06-10T13:26:29.652+05:30  INFO 266122 --- [resort-management-backend] [nio-8080-exec-4] c.r.m.booking.service.BookingService     : Booking confirmed and invoice generated. Reference=RES-20260610-0181, Invoice No=INV/2026/0001
+2026-06-10T13:26:29.652+05:30  INFO 266122 --- [resort-management-backend] [nio-8080-exec-4] c.r.m.booking.service.BookingService     : [EMAIL TRIGGER] Send confirmation email to vedant@gmail.com for booking RES-20260610-0181
+Hibernate: 
+    insert 
+    into
+        invoices
+        (base_tariff_total, booking_id, cgst_amount, created_at, discount_applied, grand_total, gst_percentage, gstin_resort, igst_amount, invoice_date, invoice_number, place_of_supply, sac_code, sgst_amount, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    update
+        bookings 
+    set
+        adults_count=?,
+        base_amount=?,
+        booking_reference=?,
+        booking_status=?,
+        category_id=?,
+        check_in_date=?,
+        check_out_date=?,
+        children_count=?,
+        coupon_id=?,
+        created_at=?,
+        discount_amount=?,
+        grand_total=?,
+        guest_id=?,
+        tax_amount=?,
+        updated_at=? 
+    where
+        id=?
+Hibernate: 
+    update
+        payments 
+    set
+        amount=?,
+        booking_id=?,
+        payment_method=?,
+        payment_status=?,
+        razorpay_order_id=?,
+        razorpay_payment_id=?,
+        razorpay_signature=?,
+        transaction_time=? 
+    where
+        id=?
+Hibernate: 
+    select
+        b1_0.id,
+        b1_0.adults_count,
+        b1_0.base_amount,
+        b1_0.booking_reference,
+        b1_0.booking_status,
+        b1_0.category_id,
+        c1_0.id,
+        c1_0.base_price,
+        c1_0.capacity,
+        c1_0.description,
+        c1_0.name,
+        a1_0.category_id,
+        a1_0.amenity,
+        b1_0.check_in_date,
+        b1_0.check_out_date,
+        b1_0.children_count,
+        c2_0.id,
+        c2_0.code,
+        c2_0.discount_type,
+        c2_0.discount_value,
+        c2_0.expiry_date,
+        c2_0.is_active,
+        c2_0.max_discount_value,
+        c2_0.min_booking_value,
+        c2_0.start_date,
+        c2_0.usage_limit,
+        c2_0.used_count,
+        b1_0.created_at,
+        b1_0.discount_amount,
+        b1_0.grand_total,
+        b1_0.guest_id,
+        g1_0.id,
+        g1_0.address,
+        g1_0.city,
+        g1_0.email,
+        g1_0.first_name,
+        g1_0.gstin,
+        g1_0.id_proof_type,
+        g1_0.id_proof_url,
+        g1_0.last_name,
+        g1_0.mobile,
+        g1_0.state_code,
+        g1_0.total_spend,
+        g1_0.total_stays,
+        b1_0.tax_amount,
+        b1_0.updated_at 
+    from
+        bookings b1_0 
+    join
+        room_categories c1_0 
+            on c1_0.id=b1_0.category_id 
+    left join
+        room_category_amenities a1_0 
+            on c1_0.id=a1_0.category_id 
+    left join
+        coupons c2_0 
+            on c2_0.id=b1_0.coupon_id 
+    join
+        guests g1_0 
+            on g1_0.id=b1_0.guest_id 
+    where
+        b1_0.id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        ar1_0.booking_id,
+        ar1_1.id,
+        ar1_1.category_id,
+        c1_0.id,
+        c1_0.base_price,
+        c1_0.capacity,
+        c1_0.description,
+        c1_0.name,
+        a1_0.category_id,
+        a1_0.amenity,
+        ar1_1.floor,
+        ar1_1.room_number,
+        ar1_1.status 
+    from
+        booking_rooms ar1_0 
+    join
+        rooms ar1_1 
+            on ar1_1.id=ar1_0.room_id 
+    left join
+        room_categories c1_0 
+            on c1_0.id=ar1_1.category_id 
+    left join
+        room_category_amenities a1_0 
+            on c1_0.id=a1_0.category_id 
+    where
+        ar1_0.booking_id=?
+Hibernate: 
+    select
+        b1_0.id,
+        b1_0.adults_count,
+        b1_0.base_amount,
+        b1_0.booking_reference,
+        b1_0.booking_status,
+        b1_0.category_id,
+        c1_0.id,
+        c1_0.base_price,
+        c1_0.capacity,
+        c1_0.description,
+        c1_0.name,
+        a1_0.category_id,
+        a1_0.amenity,
+        b1_0.check_in_date,
+        b1_0.check_out_date,
+        b1_0.children_count,
+        c2_0.id,
+        c2_0.code,
+        c2_0.discount_type,
+        c2_0.discount_value,
+        c2_0.expiry_date,
+        c2_0.is_active,
+        c2_0.max_discount_value,
+        c2_0.min_booking_value,
+        c2_0.start_date,
+        c2_0.usage_limit,
+        c2_0.used_count,
+        b1_0.created_at,
+        b1_0.discount_amount,
+        b1_0.grand_total,
+        b1_0.guest_id,
+        g1_0.id,
+        g1_0.address,
+        g1_0.city,
+        g1_0.email,
+        g1_0.first_name,
+        g1_0.gstin,
+        g1_0.id_proof_type,
+        g1_0.id_proof_url,
+        g1_0.last_name,
+        g1_0.mobile,
+        g1_0.state_code,
+        g1_0.total_spend,
+        g1_0.total_stays,
+        b1_0.tax_amount,
+        b1_0.updated_at 
+    from
+        bookings b1_0 
+    join
+        room_categories c1_0 
+            on c1_0.id=b1_0.category_id 
+    left join
+        room_category_amenities a1_0 
+            on c1_0.id=a1_0.category_id 
+    left join
+        coupons c2_0 
+            on c2_0.id=b1_0.coupon_id 
+    join
+        guests g1_0 
+            on g1_0.id=b1_0.guest_id 
+    where
+        b1_0.id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        ar1_0.booking_id,
+        ar1_1.id,
+        ar1_1.category_id,
+        c1_0.id,
+        c1_0.base_price,
+        c1_0.capacity,
+        c1_0.description,
+        c1_0.name,
+        a1_0.category_id,
+        a1_0.amenity,
+        ar1_1.floor,
+        ar1_1.room_number,
+        ar1_1.status 
+    from
+        booking_rooms ar1_0 
+    join
+        rooms ar1_1 
+            on ar1_1.id=ar1_0.room_id 
+    left join
+        room_categories c1_0 
+            on c1_0.id=ar1_1.category_id 
+    left join
+        room_category_amenities a1_0 
+            on c1_0.id=a1_0.category_id 
+    where
+        ar1_0.booking_id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.last_name,
+        u1_0.mobile,
+        u1_0.password_hash 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        r1_0.user_id,
+        r1_1.id,
+        r1_1.description,
+        r1_1.name 
+    from
+        user_roles r1_0 
+    join
+        roles r1_1 
+            on r1_1.id=r1_0.role_id 
+    where
+        r1_0.user_id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.last_name,
+        u1_0.mobile,
+        u1_0.password_hash 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        r1_0.user_id,
+        r1_1.id,
+        r1_1.description,
+        r1_1.name 
+    from
+        user_roles r1_0 
+    join
+        roles r1_1 
+            on r1_1.id=r1_0.role_id 
+    where
+        r1_0.user_id=?
+Hibernate: 
+    select
+        b1_0.id,
+        b1_0.adults_count,
+        b1_0.base_amount,
+        b1_0.booking_reference,
+        b1_0.booking_status,
+        b1_0.category_id,
+        b1_0.check_in_date,
+        b1_0.check_out_date,
+        b1_0.children_count,
+        b1_0.coupon_id,
+        b1_0.created_at,
+        b1_0.discount_amount,
+        b1_0.grand_total,
+        b1_0.guest_id,
+        b1_0.tax_amount,
+        b1_0.updated_at 
+    from
+        bookings b1_0
+Hibernate: 
+    select
+        rc1_0.id,
+        rc1_0.base_price,
+        rc1_0.capacity,
+        rc1_0.description,
+        rc1_0.name,
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_categories rc1_0 
+    left join
+        room_category_amenities a1_0 
+            on rc1_0.id=a1_0.category_id 
+    where
+        rc1_0.id=?
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.code,
+        c1_0.discount_type,
+        c1_0.discount_value,
+        c1_0.expiry_date,
+        c1_0.is_active,
+        c1_0.max_discount_value,
+        c1_0.min_booking_value,
+        c1_0.start_date,
+        c1_0.usage_limit,
+        c1_0.used_count 
+    from
+        coupons c1_0 
+    where
+        c1_0.id=?
+Hibernate: 
+    select
+        g1_0.id,
+        g1_0.address,
+        g1_0.city,
+        g1_0.email,
+        g1_0.first_name,
+        g1_0.gstin,
+        g1_0.id_proof_type,
+        g1_0.id_proof_url,
+        g1_0.last_name,
+        g1_0.mobile,
+        g1_0.state_code,
+        g1_0.total_spend,
+        g1_0.total_stays 
+    from
+        guests g1_0 
+    where
+        g1_0.id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        ar1_0.booking_id,
+        ar1_1.id,
+        ar1_1.category_id,
+        c1_0.id,
+        c1_0.base_price,
+        c1_0.capacity,
+        c1_0.description,
+        c1_0.name,
+        a1_0.category_id,
+        a1_0.amenity,
+        ar1_1.floor,
+        ar1_1.room_number,
+        ar1_1.status 
+    from
+        booking_rooms ar1_0 
+    join
+        rooms ar1_1 
+            on ar1_1.id=ar1_0.room_id 
+    left join
+        room_categories c1_0 
+            on c1_0.id=ar1_1.category_id 
+    left join
+        room_category_amenities a1_0 
+            on c1_0.id=a1_0.category_id 
+    where
+        ar1_0.booking_id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.last_name,
+        u1_0.mobile,
+        u1_0.password_hash 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        r1_0.user_id,
+        r1_1.id,
+        r1_1.description,
+        r1_1.name 
+    from
+        user_roles r1_0 
+    join
+        roles r1_1 
+            on r1_1.id=r1_0.role_id 
+    where
+        r1_0.user_id=?
+Hibernate: 
+    select
+        b1_0.id,
+        b1_0.adults_count,
+        b1_0.base_amount,
+        b1_0.booking_reference,
+        b1_0.booking_status,
+        b1_0.category_id,
+        b1_0.check_in_date,
+        b1_0.check_out_date,
+        b1_0.children_count,
+        b1_0.coupon_id,
+        b1_0.created_at,
+        b1_0.discount_amount,
+        b1_0.grand_total,
+        b1_0.guest_id,
+        b1_0.tax_amount,
+        b1_0.updated_at 
+    from
+        bookings b1_0
+Hibernate: 
+    select
+        rc1_0.id,
+        rc1_0.base_price,
+        rc1_0.capacity,
+        rc1_0.description,
+        rc1_0.name,
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_categories rc1_0 
+    left join
+        room_category_amenities a1_0 
+            on rc1_0.id=a1_0.category_id 
+    where
+        rc1_0.id=?
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.code,
+        c1_0.discount_type,
+        c1_0.discount_value,
+        c1_0.expiry_date,
+        c1_0.is_active,
+        c1_0.max_discount_value,
+        c1_0.min_booking_value,
+        c1_0.start_date,
+        c1_0.usage_limit,
+        c1_0.used_count 
+    from
+        coupons c1_0 
+    where
+        c1_0.id=?
+Hibernate: 
+    select
+        g1_0.id,
+        g1_0.address,
+        g1_0.city,
+        g1_0.email,
+        g1_0.first_name,
+        g1_0.gstin,
+        g1_0.id_proof_type,
+        g1_0.id_proof_url,
+        g1_0.last_name,
+        g1_0.mobile,
+        g1_0.state_code,
+        g1_0.total_spend,
+        g1_0.total_stays 
+    from
+        guests g1_0 
+    where
+        g1_0.id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        ar1_0.booking_id,
+        ar1_1.id,
+        ar1_1.category_id,
+        c1_0.id,
+        c1_0.base_price,
+        c1_0.capacity,
+        c1_0.description,
+        c1_0.name,
+        a1_0.category_id,
+        a1_0.amenity,
+        ar1_1.floor,
+        ar1_1.room_number,
+        ar1_1.status 
+    from
+        booking_rooms ar1_0 
+    join
+        rooms ar1_1 
+            on ar1_1.id=ar1_0.room_id 
+    left join
+        room_categories c1_0 
+            on c1_0.id=ar1_1.category_id 
+    left join
+        room_category_amenities a1_0 
+            on c1_0.id=a1_0.category_id 
+    where
+        ar1_0.booking_id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.last_name,
+        u1_0.mobile,
+        u1_0.password_hash 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        r1_0.user_id,
+        r1_1.id,
+        r1_1.description,
+        r1_1.name 
+    from
+        user_roles r1_0 
+    join
+        roles r1_1 
+            on r1_1.id=r1_0.role_id 
+    where
+        r1_0.user_id=?
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.code,
+        c1_0.discount_type,
+        c1_0.discount_value,
+        c1_0.expiry_date,
+        c1_0.is_active,
+        c1_0.max_discount_value,
+        c1_0.min_booking_value,
+        c1_0.start_date,
+        c1_0.usage_limit,
+        c1_0.used_count 
+    from
+        coupons c1_0
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.last_name,
+        u1_0.mobile,
+        u1_0.password_hash 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        r1_0.user_id,
+        r1_1.id,
+        r1_1.description,
+        r1_1.name 
+    from
+        user_roles r1_0 
+    join
+        roles r1_1 
+            on r1_1.id=r1_0.role_id 
+    where
+        r1_0.user_id=?
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.code,
+        c1_0.discount_type,
+        c1_0.discount_value,
+        c1_0.expiry_date,
+        c1_0.is_active,
+        c1_0.max_discount_value,
+        c1_0.min_booking_value,
+        c1_0.start_date,
+        c1_0.usage_limit,
+        c1_0.used_count 
+    from
+        coupons c1_0
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.last_name,
+        u1_0.mobile,
+        u1_0.password_hash 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        r1_0.user_id,
+        r1_1.id,
+        r1_1.description,
+        r1_1.name 
+    from
+        user_roles r1_0 
+    join
+        roles r1_1 
+            on r1_1.id=r1_0.role_id 
+    where
+        r1_0.user_id=?
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.code,
+        c1_0.discount_type,
+        c1_0.discount_value,
+        c1_0.expiry_date,
+        c1_0.is_active,
+        c1_0.max_discount_value,
+        c1_0.min_booking_value,
+        c1_0.start_date,
+        c1_0.usage_limit,
+        c1_0.used_count 
+    from
+        coupons c1_0 
+    where
+        c1_0.code=?
+Hibernate: 
+    insert 
+    into
+        coupons
+        (code, discount_type, discount_value, expiry_date, is_active, max_discount_value, min_booking_value, start_date, usage_limit, used_count) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.is_active,
+        u1_0.last_name,
+        u1_0.mobile,
+        u1_0.password_hash 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        r1_0.user_id,
+        r1_1.id,
+        r1_1.description,
+        r1_1.name 
+    from
+        user_roles r1_0 
+    join
+        roles r1_1 
+            on r1_1.id=r1_0.role_id 
+    where
+        r1_0.user_id=?
+Hibernate: 
+    select
+        c1_0.id,
+        c1_0.code,
+        c1_0.discount_type,
+        c1_0.discount_value,
+        c1_0.expiry_date,
+        c1_0.is_active,
+        c1_0.max_discount_value,
+        c1_0.min_booking_value,
+        c1_0.start_date,
+        c1_0.usage_limit,
+        c1_0.used_count 
+    from
+        coupons c1_0
+Hibernate: 
+    select
+        rc1_0.id,
+        rc1_0.base_price,
+        rc1_0.capacity,
+        rc1_0.description,
+        rc1_0.name 
+    from
+        room_categories rc1_0
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        rci1_0.id,
+        rci1_0.blocked_count,
+        rci1_0.booked_count,
+        rci1_0.category_id,
+        rci1_0.inventory_date,
+        rci1_0.total_inventory,
+        rci1_0.version 
+    from
+        room_category_inventory rci1_0 
+    where
+        rci1_0.category_id=? 
+        and rci1_0.inventory_date between ? and ?
+Hibernate: 
+    select
+        count(r1_0.id) 
+    from
+        rooms r1_0 
+    where
+        r1_0.category_id=?
+Hibernate: 
+    select
+        rci1_0.id,
+        rci1_0.blocked_count,
+        rci1_0.booked_count,
+        rci1_0.category_id,
+        rci1_0.inventory_date,
+        rci1_0.total_inventory,
+        rci1_0.version 
+    from
+        room_category_inventory rci1_0 
+    where
+        rci1_0.category_id=? 
+        and rci1_0.inventory_date between ? and ?
+Hibernate: 
+    select
+        count(r1_0.id) 
+    from
+        rooms r1_0 
+    where
+        r1_0.category_id=?
+Hibernate: 
+    select
+        rci1_0.id,
+        rci1_0.blocked_count,
+        rci1_0.booked_count,
+        rci1_0.category_id,
+        rci1_0.inventory_date,
+        rci1_0.total_inventory,
+        rci1_0.version 
+    from
+        room_category_inventory rci1_0 
+    where
+        rci1_0.category_id=? 
+        and rci1_0.inventory_date between ? and ?
+Hibernate: 
+    select
+        count(r1_0.id) 
+    from
+        rooms r1_0 
+    where
+        r1_0.category_id=?
+Hibernate: 
+    select
+        rc1_0.id,
+        rc1_0.base_price,
+        rc1_0.capacity,
+        rc1_0.description,
+        rc1_0.name 
+    from
+        room_categories rc1_0
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        rci1_0.id,
+        rci1_0.blocked_count,
+        rci1_0.booked_count,
+        rci1_0.category_id,
+        rci1_0.inventory_date,
+        rci1_0.total_inventory,
+        rci1_0.version 
+    from
+        room_category_inventory rci1_0 
+    where
+        rci1_0.category_id=? 
+        and rci1_0.inventory_date between ? and ?
+Hibernate: 
+    select
+        count(r1_0.id) 
+    from
+        rooms r1_0 
+    where
+        r1_0.category_id=?
+Hibernate: 
+    select
+        rci1_0.id,
+        rci1_0.blocked_count,
+        rci1_0.booked_count,
+        rci1_0.category_id,
+        rci1_0.inventory_date,
+        rci1_0.total_inventory,
+        rci1_0.version 
+    from
+        room_category_inventory rci1_0 
+    where
+        rci1_0.category_id=? 
+        and rci1_0.inventory_date between ? and ?
+Hibernate: 
+    select
+        count(r1_0.id) 
+    from
+        rooms r1_0 
+    where
+        r1_0.category_id=?
+Hibernate: 
+    select
+        rci1_0.id,
+        rci1_0.blocked_count,
+        rci1_0.booked_count,
+        rci1_0.category_id,
+        rci1_0.inventory_date,
+        rci1_0.total_inventory,
+        rci1_0.version 
+    from
+        room_category_inventory rci1_0 
+    where
+        rci1_0.category_id=? 
+        and rci1_0.inventory_date between ? and ?
+Hibernate: 
+    select
+        count(r1_0.id) 
+    from
+        rooms r1_0 
+    where
+        r1_0.category_id=?
+Hibernate: 
+    select
+        rc1_0.id,
+        rc1_0.base_price,
+        rc1_0.capacity,
+        rc1_0.description,
+        rc1_0.name 
+    from
+        room_categories rc1_0
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        rci1_0.id,
+        rci1_0.blocked_count,
+        rci1_0.booked_count,
+        rci1_0.category_id,
+        rci1_0.inventory_date,
+        rci1_0.total_inventory,
+        rci1_0.version 
+    from
+        room_category_inventory rci1_0 
+    where
+        rci1_0.category_id=? 
+        and rci1_0.inventory_date between ? and ?
+Hibernate: 
+    select
+        count(r1_0.id) 
+    from
+        rooms r1_0 
+    where
+        r1_0.category_id=?
+Hibernate: 
+    select
+        rci1_0.id,
+        rci1_0.blocked_count,
+        rci1_0.booked_count,
+        rci1_0.category_id,
+        rci1_0.inventory_date,
+        rci1_0.total_inventory,
+        rci1_0.version 
+    from
+        room_category_inventory rci1_0 
+    where
+        rci1_0.category_id=? 
+        and rci1_0.inventory_date between ? and ?
+Hibernate: 
+    select
+        count(r1_0.id) 
+    from
+        rooms r1_0 
+    where
+        r1_0.category_id=?
+Hibernate: 
+    select
+        rci1_0.id,
+        rci1_0.blocked_count,
+        rci1_0.booked_count,
+        rci1_0.category_id,
+        rci1_0.inventory_date,
+        rci1_0.total_inventory,
+        rci1_0.version 
+    from
+        room_category_inventory rci1_0 
+    where
+        rci1_0.category_id=? 
+        and rci1_0.inventory_date between ? and ?
+Hibernate: 
+    select
+        count(r1_0.id) 
+    from
+        rooms r1_0 
+    where
+        r1_0.category_id=?
+Hibernate: 
+    select
+        rc1_0.id,
+        rc1_0.base_price,
+        rc1_0.capacity,
+        rc1_0.description,
+        rc1_0.name 
+    from
+        room_categories rc1_0
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        rc1_0.id,
+        rc1_0.base_price,
+        rc1_0.capacity,
+        rc1_0.description,
+        rc1_0.name 
+    from
+        room_categories rc1_0
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        rc1_0.id,
+        rc1_0.base_price,
+        rc1_0.capacity,
+        rc1_0.description,
+        rc1_0.name 
+    from
+        room_categories rc1_0
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        rc1_0.id,
+        rc1_0.base_price,
+        rc1_0.capacity,
+        rc1_0.description,
+        rc1_0.name 
+    from
+        room_categories rc1_0
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        rc1_0.id,
+        rc1_0.base_price,
+        rc1_0.capacity,
+        rc1_0.description,
+        rc1_0.name 
+    from
+        room_categories rc1_0
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        rc1_0.id,
+        rc1_0.base_price,
+        rc1_0.capacity,
+        rc1_0.description,
+        rc1_0.name 
+    from
+        room_categories rc1_0
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        rc1_0.id,
+        rc1_0.base_price,
+        rc1_0.capacity,
+        rc1_0.description,
+        rc1_0.name 
+    from
+        room_categories rc1_0
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        rc1_0.id,
+        rc1_0.base_price,
+        rc1_0.capacity,
+        rc1_0.description,
+        rc1_0.name 
+    from
+        room_categories rc1_0
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        rc1_0.id,
+        rc1_0.base_price,
+        rc1_0.capacity,
+        rc1_0.description,
+        rc1_0.name 
+    from
+        room_categories rc1_0
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        rc1_0.id,
+        rc1_0.base_price,
+        rc1_0.capacity,
+        rc1_0.description,
+        rc1_0.name 
+    from
+        room_categories rc1_0
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        rc1_0.id,
+        rc1_0.base_price,
+        rc1_0.capacity,
+        rc1_0.description,
+        rc1_0.name 
+    from
+        room_categories rc1_0
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?

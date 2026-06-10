@@ -13,9 +13,10 @@ export default function ContactPage() {
   });
   
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg('');
     
@@ -24,7 +25,33 @@ export default function ContactPage() {
       return;
     }
 
-    setSubmitted(true);
+    setSubmitting(true);
+    try {
+      const response = await fetch('https://formsubmit.co/ajax/vedantgolegaonkar@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          message: formData.message,
+          _subject: `New Website Inquiry from ${formData.name}`,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to send message. Please try again later.');
+      }
+
+      setSubmitted(true);
+    } catch (err: any) {
+      setErrorMsg(err.message || 'An unexpected error occurred. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -157,9 +184,11 @@ export default function ContactPage() {
 
                 <button
                   type="submit"
-                  className="rounded-xl bg-navy hover:bg-navy-light text-white px-6 py-3 text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5"
+                  disabled={submitting}
+                  className="rounded-xl bg-navy hover:bg-navy-light text-white px-6 py-3 text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <Send className="h-4 w-4" /> Send Inquiry
+                  <Send className={`h-4 w-4 ${submitting ? 'animate-pulse' : ''}`} />
+                  {submitting ? 'Sending...' : 'Send Inquiry'}
                 </button>
               </form>
             )}

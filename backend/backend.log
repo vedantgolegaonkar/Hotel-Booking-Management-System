@@ -2858,3 +2858,77 @@ Hibernate:
         room_category_amenities a1_0 
     where
         a1_0.category_id=?
+Hibernate: 
+    select
+        rc1_0.id,
+        rc1_0.base_price,
+        rc1_0.capacity,
+        rc1_0.description,
+        rc1_0.name 
+    from
+        room_categories rc1_0
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+Hibernate: 
+    select
+        i1_0.category_id,
+        i1_0.image_url 
+    from
+        room_category_images i1_0 
+    where
+        i1_0.category_id=?
+Hibernate: 
+    select
+        a1_0.category_id,
+        a1_0.amenity 
+    from
+        room_category_amenities a1_0 
+    where
+        a1_0.category_id=?
+
+> Task :bootRun FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':bootRun' (registered by plugin 'org.springframework.boot').
+> Process 'command '/home/theycallmegenius/.gradle/jdks/eclipse_adoptium-21-amd64-linux.2/bin/java'' finished with non-zero exit value 137 (this value may indicate that the process was terminated with the SIGKILL signal, which is often caused by the system running out of memory)
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 9h 7s
+4 actionable tasks: 2 executed, 2 up-to-date

@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
+import { api } from '@/lib/api';
+import { RoomCategory } from '@/lib/types';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, Users, Search, Sparkles, MapPin, Coffee, ShieldCheck, Heart, Award, ArrowRight, Star, ChevronLeft, ChevronRight, Waves, Trees, Sun } from 'lucide-react';
 import Link from 'next/link';
@@ -14,8 +16,9 @@ export default function Home() {
   const [checkOut, setCheckOut] = useState('');
   const [guests, setGuests] = useState(2);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const [categories, setCategories] = useState<RoomCategory[]>([]);
 
-  // Set default dates
+  // Set default dates and fetch categories
   useEffect(() => {
     const today = new Date();
     const tomorrow = new Date();
@@ -23,6 +26,16 @@ export default function Home() {
 
     setCheckIn(today.toISOString().split('T')[0]);
     setCheckOut(tomorrow.toISOString().split('T')[0]);
+
+    const fetchCategories = async () => {
+      try {
+        const data = await api.getCategories();
+        setCategories(data || []);
+      } catch (e) {
+        console.error('Failed to fetch categories:', e);
+      }
+    };
+    fetchCategories();
   }, []);
 
   const handleSearch = (e: React.FormEvent) => {
@@ -339,28 +352,34 @@ export default function Home() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {[
-            {
-              name: "Deluxe Heritage Room",
-              price: 8500,
-              capacity: "2 Adults",
-              img: "https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=500&q=80"
-            },
-            {
-              name: "Premium Beachfront Villa",
-              price: 15500,
-              capacity: "3 Adults",
-              img: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=500&q=80"
-            },
-            {
-              name: "Royal Pool Suite",
-              price: 24000,
-              capacity: "4 Adults",
-              img: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=500&q=80"
-            }
-          ].map((cat, idx) => (
+          {(categories.length > 0 
+            ? categories 
+            : [
+                {
+                  id: 1,
+                  name: "Deluxe Room",
+                  basePrice: 6500,
+                  capacity: 2,
+                  images: ["https://images.unsplash.com/photo-1590490360182-c33d57733427"]
+                },
+                {
+                  id: 2,
+                  name: "Premium Room",
+                  basePrice: 9500,
+                  capacity: 3,
+                  images: ["https://images.unsplash.com/photo-1582719508461-905c673771fd"]
+                },
+                {
+                  id: 3,
+                  name: "Suite Room",
+                  basePrice: 14500,
+                  capacity: 4,
+                  images: ["https://images.unsplash.com/photo-1566665797739-1674de7a421a"]
+                }
+              ]
+          ).map((cat, idx) => (
             <motion.div
-              key={idx}
+              key={cat.id || idx}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -369,21 +388,23 @@ export default function Home() {
             >
               <div className="h-64 overflow-hidden relative">
                 <img 
-                  src={cat.img} 
+                  src={cat.images?.[0] || 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=600&q=80'} 
                   alt={cat.name} 
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
                 />
                 <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm px-3.5 py-1.5 rounded-full text-xs font-extrabold text-navy shadow-sm">
-                  ₹{cat.price.toLocaleString('en-IN')}/night
+                  ₹{cat.basePrice.toLocaleString('en-IN')}/night
                 </div>
               </div>
               <div className="p-6 space-y-4">
                 <div>
                   <h3 className="font-serif text-xl font-bold text-navy">{cat.name}</h3>
-                  <p className="text-[11px] text-stone-500 font-bold uppercase tracking-wider mt-1">Capacity: {cat.capacity}</p>
+                  <p className="text-[11px] text-stone-500 font-bold uppercase tracking-wider mt-1">
+                    Capacity: {cat.capacity} {cat.capacity === 1 ? 'Guest' : 'Guests'}
+                  </p>
                 </div>
                 <Link
-                  href="/rooms"
+                  href={cat.id ? `/rooms/${cat.id}` : "/rooms"}
                   className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-gold hover:text-gold-hover transition-colors"
                 >
                   Explore Details <ArrowRight className="h-4 w-4" />

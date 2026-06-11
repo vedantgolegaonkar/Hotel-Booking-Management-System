@@ -205,7 +205,7 @@ export default function ContactPage() {
 
       {/* WhatsApp float widget button */}
       <a
-        href="https://wa.me/918329998888"
+        href="https://wa.me/918275312045"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 z-40 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full p-4 shadow-lg hover:scale-105 transition-all flex items-center gap-2 text-sm font-semibold"

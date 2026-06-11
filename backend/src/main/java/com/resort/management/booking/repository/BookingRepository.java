@@ -12,12 +12,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.data.jpa.repository.EntityGraph;
+
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, UUID> {
     Optional<Booking> findByBookingReference(String bookingReference);
     List<Booking> findByBookingStatus(String bookingStatus);
     List<Booking> findByBookingStatusAndCreatedAtBefore(String status, LocalDateTime time);
 
+    @EntityGraph(attributePaths = {"guest", "category", "coupon"})
     @Query("SELECT b FROM Booking b WHERE LOWER(b.guest.firstName) LIKE LOWER(concat('%', :search, '%')) " +
            "OR LOWER(b.guest.lastName) LIKE LOWER(concat('%', :search, '%')) " +
            "OR LOWER(b.bookingReference) LIKE LOWER(concat('%', :search, '%'))")
@@ -25,4 +28,12 @@ public interface BookingRepository extends JpaRepository<Booking, UUID> {
 
     List<Booking> findByCheckInDate(LocalDate date);
     List<Booking> findByCheckOutDate(LocalDate date);
+
+    @Override
+    @EntityGraph(attributePaths = {"guest", "category", "coupon"})
+    List<Booking> findAll();
+
+    @Override
+    @EntityGraph(attributePaths = {"guest", "category", "coupon"})
+    Optional<Booking> findById(UUID id);
 }

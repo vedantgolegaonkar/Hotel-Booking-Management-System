@@ -3,6 +3,8 @@ package com.resort.management.inventory.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "rooms", indexes = {
     @Index(name = "idx_room_status", columnList = "status")
@@ -12,6 +14,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Room {
 
     @Id
@@ -21,7 +24,7 @@ public class Room {
     @Column(name = "room_number", nullable = false, unique = true, length = 10)
     private String roomNumber;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
     private RoomCategory category;
 

@@ -4,6 +4,7 @@ import com.resort.management.inventory.model.Room;
 import com.resort.management.inventory.model.RoomCategory;
 import jakarta.persistence.*;
 import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,6 +23,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Booking {
 
     @Id
@@ -31,11 +33,11 @@ public class Booking {
     @Column(name = "booking_reference", nullable = false, unique = true, length = 20)
     private String bookingReference;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "guest_id", nullable = false)
     private Guest guest;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
     private RoomCategory category;
 
@@ -56,7 +58,7 @@ public class Booking {
     @Column(name = "booking_status", nullable = false, length = 30)
     private String bookingStatus = "PENDING_PAYMENT"; // PENDING_PAYMENT, CONFIRMED, CHECKED_IN, CHECKED_OUT, CANCELLED, EXPIRED, TIMEOUT_REFUNDED
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "coupon_id")
     private Coupon coupon;
 

@@ -20,8 +20,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const syncAuth = () => {
     try {
       const storedUser = localStorage.getItem('user');
-      const storedToken = localStorage.getItem('token');
-      if (storedUser && storedToken) {
+      if (storedUser) {
         setUser(JSON.parse(storedUser));
       } else {
         setUser(null);
@@ -60,7 +59,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         roles: data.roles,
       };
 
-      localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(authenticatedUser));
       setUser(authenticatedUser);
       return authenticatedUser;
@@ -73,7 +71,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
+    api.logout();
     localStorage.removeItem('user');
     setUser(null);
   };

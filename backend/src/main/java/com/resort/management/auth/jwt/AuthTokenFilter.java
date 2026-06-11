@@ -29,6 +29,15 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+        // Stateless CSRF Protection
+        if (!request.getMethod().equals("OPTIONS") && !request.getMethod().equals("GET")) {
+            String requestedWith = request.getHeader("X-Requested-With");
+            if (!"XMLHttpRequest".equals(requestedWith)) {
+                response.sendError(HttpServletResponse.SC_FORBIDDEN, "Missing or invalid X-Requested-With header (CSRF Protection)");
+                return;
+            }
+        }
+
         try {
             String jwt = parseJwt(request);
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
@@ -49,12 +58,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     }
 
     private String parseJwt(HttpServletRequest request) {
-        String headerAuth = request.getHeader("Authorization");
-
-        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
-            return headerAuth.substring(7);
-        }
-
-        return null;
+        return jwtUtils.getJwtFromCookies(request);
     }
 }

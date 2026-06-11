@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -34,22 +36,31 @@ public class AuthController {
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
+        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(authentication);
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(new JwtResponse(
-                jwt,
-                userDetails.getId().toString(),
-                userDetails.getUsername(),
-                userDetails.getFirstName(),
-                userDetails.getLastName(),
-                userDetails.getMobile(),
-                roles
-        ));
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+                .body(new JwtResponse(
+                        userDetails.getId().toString(),
+                        userDetails.getUsername(),
+                        userDetails.getFirstName(),
+                        userDetails.getLastName(),
+                        userDetails.getMobile(),
+                        roles
+                ));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logoutUser() {
+        ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .body("You've been signed out!");
     }
 
     @Data
@@ -63,8 +74,6 @@ public class AuthController {
 
     @Data
     public static class JwtResponse {
-        private String token;
-        private String type = "Bearer";
         private String id;
         private String email;
         private String firstName;
@@ -72,8 +81,7 @@ public class AuthController {
         private String mobile;
         private List<String> roles;
 
-        public JwtResponse(String accessToken, String id, String email, String firstName, String lastName, String mobile, List<String> roles) {
-            this.token = accessToken;
+        public JwtResponse(String id, String email, String firstName, String lastName, String mobile, List<String> roles) {
             this.id = id;
             this.email = email;
             this.firstName = firstName;

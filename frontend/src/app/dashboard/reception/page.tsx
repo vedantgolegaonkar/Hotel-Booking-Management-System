@@ -23,7 +23,7 @@ export default function ReceptionPage() {
 
   // Check-out Modal
   const [checkOutModal, setCheckOutModal] = useState(false);
-  const [extraIncidentals, setExtraIncidentals] = useState(0);
+  const [extraIncidentals, setExtraIncidentals] = useState<number | string>(0);
   const [paymentMethod, setPaymentMethod] = useState('CARD');
   const [txRef, setTxRef] = useState('');
   const [submittingCheckOut, setSubmittingCheckOut] = useState(false);
@@ -93,7 +93,7 @@ export default function ReceptionPage() {
   const openCheckOut = (booking: Booking) => {
     setSelectedBooking(booking);
     setCheckOutModal(true);
-    setExtraIncidentals(0);
+    setExtraIncidentals('0');
     setTxRef('');
     setErrorMsg('');
   };
@@ -106,7 +106,7 @@ export default function ReceptionPage() {
 
     try {
       const checkoutRes = await api.checkOut(selectedBooking.id, {
-        extraIncidentals,
+        extraIncidentals: Number(extraIncidentals) || 0,
         paymentMethod,
         txRef: txRef.trim() !== '' ? txRef : 'tx_' + Math.random().toString(36).substring(2, 12),
       });
@@ -417,7 +417,13 @@ export default function ReceptionPage() {
                     type="number"
                     min="0"
                     value={extraIncidentals}
-                    onChange={(e) => setExtraIncidentals(Number(e.target.value))}
+                    onChange={(e) => {
+                      let val = e.target.value;
+                      if (/^0[0-9]/.test(val)) {
+                        val = val.replace(/^0+/, '');
+                      }
+                      setExtraIncidentals(val);
+                    }}
                     className="w-full rounded-xl border border-stone-200 px-4 py-2.5 text-sm focus:border-gold focus:outline-none"
                   />
                 </div>

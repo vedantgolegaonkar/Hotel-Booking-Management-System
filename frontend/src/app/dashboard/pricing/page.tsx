@@ -116,7 +116,13 @@ export default function PricingPage() {
                           type="number"
                           required
                           value={editPrice}
-                          onChange={(e) => setEditPrice(e.target.value)}
+                          onChange={(e) => {
+                            let val = e.target.value;
+                            if (/^0[0-9]/.test(val)) {
+                              val = val.replace(/^0+/, '');
+                            }
+                            setEditPrice(val);
+                          }}
                           className="rounded-xl border border-stone-200 pl-6 pr-3 py-2 text-xs focus:outline-none w-32 font-bold"
                         />
                       </div>

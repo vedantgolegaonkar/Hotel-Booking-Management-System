@@ -13,8 +13,8 @@ export default function SettingsPage() {
     stateCode: 'GA', // Goa home supply state
     gstin: '30AAAAA9999A1Z2',
     sacCode: '996311',
-    gstSlabLower: 12, // For tariff < 7500
-    gstSlabUpper: 18, // For tariff >= 7500
+    gstSlabLower: 12 as number | string, // For tariff < 7500
+    gstSlabUpper: 18 as number | string, // For tariff >= 7500
     razorpayKeyId: 'rzp_test_somnikaKey123',
     razorpaySecret: '••••••••••••••••••••••••',
     sandboxMode: true,
@@ -94,7 +94,13 @@ export default function SettingsPage() {
                 <input
                   type="number"
                   value={settings.gstSlabLower}
-                  onChange={(e) => setSettings({...settings, gstSlabLower: Number(e.target.value)})}
+                  onChange={(e) => {
+                    let val = e.target.value;
+                    if (/^0[0-9]/.test(val)) {
+                      val = val.replace(/^0+/, '');
+                    }
+                    setSettings({...settings, gstSlabLower: val});
+                  }}
                   className="w-full rounded-xl border border-stone-200 px-4 py-2.5 text-xs focus:outline-none pr-10"
                 />
                 <span className="absolute right-4 top-3 text-xs text-stone-400 font-bold">%</span>
@@ -106,7 +112,13 @@ export default function SettingsPage() {
                 <input
                   type="number"
                   value={settings.gstSlabUpper}
-                  onChange={(e) => setSettings({...settings, gstSlabUpper: Number(e.target.value)})}
+                  onChange={(e) => {
+                    let val = e.target.value;
+                    if (/^0[0-9]/.test(val)) {
+                      val = val.replace(/^0+/, '');
+                    }
+                    setSettings({...settings, gstSlabUpper: val});
+                  }}
                   className="w-full rounded-xl border border-stone-200 px-4 py-2.5 text-xs focus:outline-none pr-10"
                 />
                 <span className="absolute right-4 top-3 text-xs text-stone-400 font-bold">%</span>

@@ -16,12 +16,12 @@ export default function CouponsPage() {
   const [formData, setFormData] = useState({
     code: '',
     discountType: 'PERCENTAGE',
-    discountValue: 10,
-    minBookingValue: 0,
-    maxDiscountValue: 1000,
+    discountValue: 10 as number | string,
+    minBookingValue: 0 as number | string,
+    maxDiscountValue: 1000 as number | string,
     startDate: '',
     expiryDate: '',
-    usageLimit: 100,
+    usageLimit: 100 as number | string,
     isActive: true,
   });
 
@@ -60,7 +60,14 @@ export default function CouponsPage() {
     setErrorMsg('');
     setSuccessMsg('');
     try {
-      await api.createCoupon(formData);
+      const payload = {
+        ...formData,
+        discountValue: Number(formData.discountValue) || 0,
+        minBookingValue: Number(formData.minBookingValue) || 0,
+        maxDiscountValue: Number(formData.maxDiscountValue) || 0,
+        usageLimit: Number(formData.usageLimit) || 0,
+      };
+      await api.createCoupon(payload);
       setSuccessMsg(`Coupon code ${formData.code} created successfully!`);
       setShowForm(false);
       
@@ -163,7 +170,13 @@ export default function CouponsPage() {
                   type="number"
                   required
                   value={formData.discountValue}
-                  onChange={(e) => setFormData({...formData, discountValue: Number(e.target.value)})}
+                  onChange={(e) => {
+                    let val = e.target.value;
+                    if (/^0[0-9]/.test(val)) {
+                      val = val.replace(/^0+/, '');
+                    }
+                    setFormData({...formData, discountValue: val});
+                  }}
                   className="w-full rounded-xl border border-stone-200 px-3 py-2 text-xs focus:outline-none"
                 />
               </div>
@@ -172,7 +185,13 @@ export default function CouponsPage() {
                 <input
                   type="number"
                   value={formData.minBookingValue}
-                  onChange={(e) => setFormData({...formData, minBookingValue: Number(e.target.value)})}
+                  onChange={(e) => {
+                    let val = e.target.value;
+                    if (/^0[0-9]/.test(val)) {
+                      val = val.replace(/^0+/, '');
+                    }
+                    setFormData({...formData, minBookingValue: val});
+                  }}
                   className="w-full rounded-xl border border-stone-200 px-3 py-2 text-xs focus:outline-none"
                 />
               </div>
@@ -181,7 +200,13 @@ export default function CouponsPage() {
                 <input
                   type="number"
                   value={formData.maxDiscountValue}
-                  onChange={(e) => setFormData({...formData, maxDiscountValue: Number(e.target.value)})}
+                  onChange={(e) => {
+                    let val = e.target.value;
+                    if (/^0[0-9]/.test(val)) {
+                      val = val.replace(/^0+/, '');
+                    }
+                    setFormData({...formData, maxDiscountValue: val});
+                  }}
                   className="w-full rounded-xl border border-stone-200 px-3 py-2 text-xs focus:outline-none"
                 />
               </div>

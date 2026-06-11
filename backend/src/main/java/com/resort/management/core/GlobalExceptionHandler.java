@@ -37,4 +37,15 @@ public class GlobalExceptionHandler {
         errors.put("error", ex.getMessage());
         return ResponseEntity.badRequest().body(errors);
     }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Map<String, String>> handleGenericException(Exception ex) {
+        // Log the actual exception internally so developers can debug it
+        org.slf4j.LoggerFactory.getLogger(GlobalExceptionHandler.class).error("An unexpected internal error occurred: ", ex);
+
+        // Return a completely safe, generic message to the client
+        Map<String, String> error = new HashMap<>();
+        error.put("error", "An unexpected internal error occurred. Please contact support.");
+        return ResponseEntity.status(org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+    }
 }

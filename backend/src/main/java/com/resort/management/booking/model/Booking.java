@@ -12,7 +12,11 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "bookings")
+@Table(name = "bookings", indexes = {
+    @Index(name = "idx_booking_status", columnList = "booking_status"),
+    @Index(name = "idx_booking_checkin", columnList = "check_in_date"),
+    @Index(name = "idx_booking_checkout", columnList = "check_out_date")
+})
 @Getter
 @Setter
 @NoArgsConstructor

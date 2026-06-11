@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import com.resort.management.booking.dto.BookingResponse;
 
 @RestController
 @RequestMapping("/api/v1/bookings")
@@ -31,26 +33,33 @@ public class BookingController {
     public ResponseEntity<?> initiateBooking(@Valid @RequestBody BookingRequest request) {
         try {
             Booking booking = bookingService.initiateBooking(request);
-            return ResponseEntity.status(HttpStatus.CREATED).body(booking);
+            return ResponseEntity.status(HttpStatus.CREATED).body(BookingResponse.fromEntity(booking));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(java.util.Map.of("error", e.getMessage()));
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Booking> getBookingById(@PathVariable UUID id) {
+    public ResponseEntity<BookingResponse> getBookingById(@PathVariable UUID id) {
         return bookingRepository.findById(id)
+                .map(BookingResponse::fromEntity)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping
     @PreAuthorize("hasAnyRole('ROLE_RECEPTIONIST', 'ROLE_MANAGER', 'ROLE_SUPER_ADMIN')")
-    public ResponseEntity<List<Booking>> searchBookings(@RequestParam(value = "search", required = false) String search) {
+    public ResponseEntity<List<BookingResponse>> searchBookings(@RequestParam(value = "search", required = false) String search) {
+        List<Booking> bookings;
         if (search != null && !search.trim().isEmpty()) {
-            return ResponseEntity.ok(bookingRepository.searchBookings(search));
+            bookings = bookingRepository.searchBookings(search);
+        } else {
+            bookings = bookingRepository.findAll();
         }
-        return ResponseEntity.ok(bookingRepository.findAll());
+        List<BookingResponse> responses = bookings.stream()
+            .map(BookingResponse::fromEntity)
+            .collect(Collectors.toList());
+        return ResponseEntity.ok(responses);
     }
 
     @PostMapping("/{id}/check-in")
@@ -63,7 +72,7 @@ public class BookingController {
                     request.getIdProofType(),
                     request.getIdProofUrl()
             );
-            return ResponseEntity.ok(booking);
+            return ResponseEntity.ok(BookingResponse.fromEntity(booking));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(java.util.Map.of("error", e.getMessage()));
         }
@@ -79,7 +88,7 @@ public class BookingController {
                     request.getPaymentMethod(),
                     request.getTxRef()
             );
-            return ResponseEntity.ok(booking);
+            return ResponseEntity.ok(BookingResponse.fromEntity(booking));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(java.util.Map.of("error", e.getMessage()));
         }

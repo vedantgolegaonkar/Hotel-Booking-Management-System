@@ -10,6 +10,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import com.resort.management.booking.dto.CouponResponse;
 
 @RestController
 @RequestMapping("/api/v1/coupons")
@@ -21,8 +23,11 @@ public class CouponController {
 
     @GetMapping
     @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_SUPER_ADMIN')")
-    public ResponseEntity<List<Coupon>> getAllCoupons() {
-        return ResponseEntity.ok(couponRepository.findAll());
+    public ResponseEntity<List<CouponResponse>> getAllCoupons() {
+        List<CouponResponse> coupons = couponRepository.findAll().stream()
+            .map(CouponResponse::fromEntity)
+            .collect(Collectors.toList());
+        return ResponseEntity.ok(coupons);
     }
 
     @PostMapping
@@ -33,7 +38,7 @@ public class CouponController {
                 return ResponseEntity.badRequest().body(java.util.Map.of("error", "Coupon code already exists."));
             }
             Coupon saved = couponRepository.save(coupon);
-            return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+            return ResponseEntity.status(HttpStatus.CREATED).body(CouponResponse.fromEntity(saved));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(java.util.Map.of("error", e.getMessage()));
         }
@@ -54,7 +59,7 @@ public class CouponController {
                     coupon.setUsageLimit(updatedCoupon.getUsageLimit());
                     coupon.setIsActive(updatedCoupon.getIsActive());
                     Coupon saved = couponRepository.save(coupon);
-                    return ResponseEntity.ok(saved);
+                    return ResponseEntity.ok(CouponResponse.fromEntity(saved));
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }

@@ -13,6 +13,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import com.resort.management.housekeeping.dto.HousekeepingTaskResponse;
 
 @RestController
 @RequestMapping("/api/v1/housekeeping")
@@ -27,8 +29,11 @@ public class HousekeepingController {
 
     @GetMapping("/tasks")
     @PreAuthorize("hasAnyRole('ROLE_HOUSEKEEPING', 'ROLE_RECEPTIONIST', 'ROLE_MANAGER', 'ROLE_SUPER_ADMIN')")
-    public ResponseEntity<List<HousekeepingTask>> getActiveTasks() {
-        return ResponseEntity.ok(housekeepingService.getActiveTasks());
+    public ResponseEntity<List<HousekeepingTaskResponse>> getActiveTasks() {
+        List<HousekeepingTaskResponse> tasks = housekeepingService.getActiveTasks().stream()
+            .map(HousekeepingTaskResponse::fromEntity)
+            .collect(Collectors.toList());
+        return ResponseEntity.ok(tasks);
     }
 
     @PostMapping("/tasks/{id}/claim")
@@ -40,7 +45,7 @@ public class HousekeepingController {
                     .orElseThrow(() -> new IllegalArgumentException("Authenticated user record not found."));
 
             HousekeepingTask task = housekeepingService.startCleaning(id, staff);
-            return ResponseEntity.ok(task);
+            return ResponseEntity.ok(HousekeepingTaskResponse.fromEntity(task));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(java.util.Map.of("error", e.getMessage()));
         }
@@ -51,7 +56,7 @@ public class HousekeepingController {
     public ResponseEntity<?> completeTask(@PathVariable Long id, @RequestBody TaskCompleteRequest request) {
         try {
             HousekeepingTask task = housekeepingService.completeCleaning(id, request.getNotes());
-            return ResponseEntity.ok(task);
+            return ResponseEntity.ok(HousekeepingTaskResponse.fromEntity(task));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(java.util.Map.of("error", e.getMessage()));
         }

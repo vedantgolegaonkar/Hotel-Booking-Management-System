@@ -10,6 +10,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import com.resort.management.inventory.dto.RoomCategoryResponse;
+import com.resort.management.inventory.dto.RoomResponse;
 
 @RestController
 @RequestMapping("/api/v1/rooms")
@@ -23,13 +26,17 @@ public class RoomController {
     private RoomRepository roomRepository;
 
     @GetMapping("/categories")
-    public ResponseEntity<List<RoomCategory>> getAllCategories() {
-        return ResponseEntity.ok(categoryRepository.findAll());
+    public ResponseEntity<List<RoomCategoryResponse>> getAllCategories() {
+        List<RoomCategoryResponse> categories = categoryRepository.findAll().stream()
+            .map(RoomCategoryResponse::fromEntity)
+            .collect(Collectors.toList());
+        return ResponseEntity.ok(categories);
     }
 
     @GetMapping("/categories/{id}")
-    public ResponseEntity<RoomCategory> getCategoryById(@PathVariable Long id) {
+    public ResponseEntity<RoomCategoryResponse> getCategoryById(@PathVariable Long id) {
         return categoryRepository.findById(id)
+                .map(RoomCategoryResponse::fromEntity)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -40,7 +47,9 @@ public class RoomController {
         RoomCategory category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new IllegalArgumentException("Category not found with ID: " + categoryId));
 
-        List<Room> availableRooms = roomRepository.findByCategoryAndStatus(category, "AVAILABLE");
+        List<RoomResponse> availableRooms = roomRepository.findByCategoryAndStatus(category, "AVAILABLE").stream()
+            .map(RoomResponse::fromEntity)
+            .collect(Collectors.toList());
         return ResponseEntity.ok(availableRooms);
     }
 
@@ -54,7 +63,7 @@ public class RoomController {
                     cat.setCapacity(updatedCat.getCapacity());
                     cat.setBasePrice(updatedCat.getBasePrice());
                     RoomCategory saved = categoryRepository.save(cat);
-                    return ResponseEntity.ok(saved);
+                    return ResponseEntity.ok(RoomCategoryResponse.fromEntity(saved));
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }

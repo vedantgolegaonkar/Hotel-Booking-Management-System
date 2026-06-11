@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class HousekeepingService {
@@ -69,9 +71,7 @@ public class HousekeepingService {
         return taskRepository.save(task);
     }
 
-    public List<HousekeepingTask> getActiveTasks() {
-        return taskRepository.findAll().stream()
-                .filter(t -> !"COMPLETED".equals(t.getTaskStatus()))
-                .toList();
+    public Page<HousekeepingTask> getActiveTasks(Pageable pageable) {
+        return taskRepository.findByTaskStatusNot("COMPLETED", pageable);
     }
 }

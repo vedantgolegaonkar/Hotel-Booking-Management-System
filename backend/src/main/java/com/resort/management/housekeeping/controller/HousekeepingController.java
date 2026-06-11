@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 import com.resort.management.housekeeping.dto.HousekeepingTaskResponse;
+import com.resort.management.core.dto.PaginatedResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 @RestController
 @RequestMapping("/api/v1/housekeeping")
@@ -29,11 +33,18 @@ public class HousekeepingController {
 
     @GetMapping("/tasks")
     @PreAuthorize("hasAnyRole('ROLE_HOUSEKEEPING', 'ROLE_RECEPTIONIST', 'ROLE_MANAGER', 'ROLE_SUPER_ADMIN')")
-    public ResponseEntity<List<HousekeepingTaskResponse>> getActiveTasks() {
-        List<HousekeepingTaskResponse> tasks = housekeepingService.getActiveTasks().stream()
+    public ResponseEntity<PaginatedResponse<HousekeepingTaskResponse>> getActiveTasks(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size) {
+            
+        Pageable pageable = PageRequest.of(page, size);
+        Page<HousekeepingTask> taskPage = housekeepingService.getActiveTasks(pageable);
+        
+        List<HousekeepingTaskResponse> responses = taskPage.getContent().stream()
             .map(HousekeepingTaskResponse::fromEntity)
             .collect(Collectors.toList());
-        return ResponseEntity.ok(tasks);
+            
+        return ResponseEntity.ok(PaginatedResponse.of(taskPage, responses));
     }
 
     @PostMapping("/tasks/{id}/claim")

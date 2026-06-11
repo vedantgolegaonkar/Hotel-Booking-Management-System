@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 import com.resort.management.booking.dto.CouponResponse;
+import com.resort.management.core.dto.PaginatedResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 @RestController
 @RequestMapping("/api/v1/coupons")
@@ -23,11 +27,18 @@ public class CouponController {
 
     @GetMapping
     @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_SUPER_ADMIN')")
-    public ResponseEntity<List<CouponResponse>> getAllCoupons() {
-        List<CouponResponse> coupons = couponRepository.findAll().stream()
+    public ResponseEntity<PaginatedResponse<CouponResponse>> getAllCoupons(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size) {
+            
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Coupon> couponPage = couponRepository.findAll(pageable);
+        
+        List<CouponResponse> responses = couponPage.getContent().stream()
             .map(CouponResponse::fromEntity)
             .collect(Collectors.toList());
-        return ResponseEntity.ok(coupons);
+            
+        return ResponseEntity.ok(PaginatedResponse.of(couponPage, responses));
     }
 
     @PostMapping

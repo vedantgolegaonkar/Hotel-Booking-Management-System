@@ -17,6 +17,10 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import com.resort.management.booking.dto.BookingResponse;
+import com.resort.management.core.dto.PaginatedResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 @RestController
 @RequestMapping("/api/v1/bookings")
@@ -49,17 +53,25 @@ public class BookingController {
 
     @GetMapping
     @PreAuthorize("hasAnyRole('ROLE_RECEPTIONIST', 'ROLE_MANAGER', 'ROLE_SUPER_ADMIN')")
-    public ResponseEntity<List<BookingResponse>> searchBookings(@RequestParam(value = "search", required = false) String search) {
-        List<Booking> bookings;
+    public ResponseEntity<PaginatedResponse<BookingResponse>> searchBookings(
+            @RequestParam(value = "search", required = false) String search,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size) {
+            
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Booking> bookingPage;
+        
         if (search != null && !search.trim().isEmpty()) {
-            bookings = bookingRepository.searchBookings(search);
+            bookingPage = bookingRepository.searchBookings(search, pageable);
         } else {
-            bookings = bookingRepository.findAll();
+            bookingPage = bookingRepository.findAll(pageable);
         }
-        List<BookingResponse> responses = bookings.stream()
+        
+        List<BookingResponse> responses = bookingPage.getContent().stream()
             .map(BookingResponse::fromEntity)
             .collect(Collectors.toList());
-        return ResponseEntity.ok(responses);
+            
+        return ResponseEntity.ok(PaginatedResponse.of(bookingPage, responses));
     }
 
     @PostMapping("/{id}/check-in")

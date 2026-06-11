@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.domain.Page;
 
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, UUID> {
@@ -24,14 +25,14 @@ public interface BookingRepository extends JpaRepository<Booking, UUID> {
     @Query("SELECT b FROM Booking b WHERE LOWER(b.guest.firstName) LIKE LOWER(concat('%', :search, '%')) " +
            "OR LOWER(b.guest.lastName) LIKE LOWER(concat('%', :search, '%')) " +
            "OR LOWER(b.bookingReference) LIKE LOWER(concat('%', :search, '%'))")
-    List<Booking> searchBookings(@Param("search") String search);
+    Page<Booking> searchBookings(@Param("search") String search, org.springframework.data.domain.Pageable pageable);
 
     List<Booking> findByCheckInDate(LocalDate date);
     List<Booking> findByCheckOutDate(LocalDate date);
 
     @Override
     @EntityGraph(attributePaths = {"guest", "category", "coupon"})
-    List<Booking> findAll();
+    Page<Booking> findAll(org.springframework.data.domain.Pageable pageable);
 
     @Override
     @EntityGraph(attributePaths = {"guest", "category", "coupon"})

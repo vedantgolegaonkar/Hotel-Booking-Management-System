@@ -8,12 +8,17 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Repository
 public interface HousekeepingTaskRepository extends JpaRepository<HousekeepingTask, Long> {
     
     @EntityGraph(attributePaths = {"room", "assignedTo"})
     List<HousekeepingTask> findByTaskStatus(String taskStatus);
+    
+    @EntityGraph(attributePaths = {"room", "assignedTo"})
+    Page<HousekeepingTask> findByTaskStatusNot(String taskStatus, Pageable pageable);
     
     @EntityGraph(attributePaths = {"room", "assignedTo"})
     List<HousekeepingTask> findByRoomId(Long roomId);
@@ -23,7 +28,7 @@ public interface HousekeepingTaskRepository extends JpaRepository<HousekeepingTa
 
     @Override
     @EntityGraph(attributePaths = {"room", "assignedTo"})
-    List<HousekeepingTask> findAll();
+    Page<HousekeepingTask> findAll(Pageable pageable);
 
     @Override
     @EntityGraph(attributePaths = {"room", "assignedTo"})

@@ -5,10 +5,10 @@ spring:
   application:
     name: resort-management-backend
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://db.mireycitkqcopcbxpvbk.supabase.co:5432/postgres}
+    url: ${SPRING_DATASOURCE_URL}
     driver-class-name: org.postgresql.Driver
-    username: ${SPRING_DATASOURCE_USERNAME:postgres}
-    password: ${SPRING_DATASOURCE_PASSWORD:Vedant@110219998}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
@@ -22,6 +22,6 @@ spring:
       enabled: false
 
 jwt:
-  secret: 407F164096F03EE7A71AFB8CB9A5F89BE6FF7A54947E9ACF986A8D00E2BE762B
+  secret: ${JWT_SECRET}
   access-token-expiration-ms: 900000
   refresh-token-expiration-ms: 604800000

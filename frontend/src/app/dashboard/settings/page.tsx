@@ -15,8 +15,8 @@ export default function SettingsPage() {
     sacCode: '996311',
     gstSlabLower: 12 as number | string, // For tariff < 7500
     gstSlabUpper: 18 as number | string, // For tariff >= 7500
-    razorpayKeyId: 'rzp_test_somnikaKey123',
-    razorpaySecret: '••••••••••••••••••••••••',
+    razorpayKeyId: '',
+    razorpaySecret: '',
     sandboxMode: true,
   });
 

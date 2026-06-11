@@ -101,4 +101,36 @@ public class JwtUtils {
                 .sameSite("None")
                 .build();
     }
+
+    public String getJwtRefreshFromCookies(HttpServletRequest request) {
+        Cookie cookie = WebUtils.getCookie(request, "jwt-refresh");
+        if (cookie != null) {
+            return cookie.getValue();
+        } else {
+            return null;
+        }
+    }
+
+    @Value("${jwt.refresh-token-expiration-ms}")
+    private Long refreshTokenDurationMs;
+
+    public ResponseCookie generateRefreshJwtCookie(String refreshToken) {
+        return ResponseCookie.from("jwt-refresh", refreshToken)
+                .path("/api/v1/auth/refreshtoken")
+                .maxAge(refreshTokenDurationMs / 1000)
+                .httpOnly(true)
+                .secure(true)
+                .sameSite("None")
+                .build();
+    }
+
+    public ResponseCookie getCleanJwtRefreshCookie() {
+        return ResponseCookie.from("jwt-refresh", "")
+                .path("/api/v1/auth/refreshtoken")
+                .maxAge(0)
+                .httpOnly(true)
+                .secure(true)
+                .sameSite("None")
+                .build();
+    }
 }

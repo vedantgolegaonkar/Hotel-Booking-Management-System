@@ -1,7 +1,7 @@
+import { couponService } from '@/lib/services/coupon.service';
 'use client';
 
 import { useState, useEffect } from 'react';
-import { api } from '@/lib/api';
 import { Loader2, AlertCircle, CheckCircle, Plus, Trash2, Calendar, Tag } from 'lucide-react';
 
 export default function CouponsPage() {
@@ -45,7 +45,7 @@ export default function CouponsPage() {
     setLoading(true);
     setErrorMsg('');
     try {
-      const data = await api.getCoupons();
+      const data = await couponService.getCoupons();
       setCoupons(data || []);
     } catch (err: any) {
       setErrorMsg(err.message || 'Failed to fetch coupons.');
@@ -67,7 +67,7 @@ export default function CouponsPage() {
         maxDiscountValue: Number(formData.maxDiscountValue) || 0,
         usageLimit: Number(formData.usageLimit) || 0,
       };
-      await api.createCoupon(payload);
+      await couponService.createCoupon(payload);
       setSuccessMsg(`Coupon code ${formData.code} created successfully!`);
       setShowForm(false);
       
@@ -97,7 +97,7 @@ export default function CouponsPage() {
     setErrorMsg('');
     setSuccessMsg('');
     try {
-      await api.deleteCoupon(id);
+      await couponService.deleteCoupon(id);
       setSuccessMsg('Coupon deleted successfully.');
       fetchCoupons();
     } catch (err: any) {

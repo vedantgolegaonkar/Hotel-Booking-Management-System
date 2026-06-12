@@ -22,42 +22,33 @@ public class PaymentWebhookController {
     // Razorpay Webhook Callback
     @PostMapping("/webhook")
     public ResponseEntity<?> handleRazorpayWebhook(@RequestBody Map<String, Object> payload) {
-        try {
-            logger.info("Received Razorpay Webhook callback: {}", payload);
-            String event = (String) payload.get("event");
+        logger.info("Received Razorpay Webhook callback: {}", payload);
+        String event = (String) payload.get("event");
 
-            if ("order.paid".equals(event) || "payment.captured".equals(event)) {
-                Map<String, Object> innerPayload = (Map<String, Object>) payload.get("payload");
-                Map<String, Object> paymentEntity = (Map<String, Object>) ((Map<String, Object>) innerPayload.get("payment")).get("entity");
+        if ("order.paid".equals(event) || "payment.captured".equals(event)) {
+            Map<String, Object> innerPayload = (Map<String, Object>) payload.get("payload");
+            Map<String, Object> paymentEntity = (Map<String, Object>) ((Map<String, Object>) innerPayload.get("payment")).get("entity");
 
-                String orderId = (String) paymentEntity.get("order_id");
-                String paymentId = (String) paymentEntity.get("id");
-                String signature = "mock_sig_" + paymentId;
+            String orderId = (String) paymentEntity.get("order_id");
+            String paymentId = (String) paymentEntity.get("id");
+            String signature = "mock_sig_" + paymentId;
 
-                bookingService.confirmBookingPayment(orderId, paymentId, signature);
-                return ResponseEntity.ok(Map.of("status", "success", "message", "Payment processed"));
-            }
-
-            return ResponseEntity.ok(Map.of("status", "ignored", "message", "Event not handled"));
-        } catch (Exception e) {
-            logger.error("Error processing payment webhook", e);
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+            bookingService.confirmBookingPayment(orderId, paymentId, signature);
+            return ResponseEntity.ok(Map.of("status", "success", "message", "Payment processed"));
         }
+
+        return ResponseEntity.ok(Map.of("status", "ignored", "message", "Event not handled"));
     }
 
     // Direct Confirmation Endpoint for Frontend Integration/Testing
     @PostMapping("/confirm")
     public ResponseEntity<?> confirmPaymentDirectly(@RequestBody ConfirmPaymentRequest request) {
-        try {
-            bookingService.confirmBookingPayment(
-                    request.getRazorpayOrderId(),
-                    request.getRazorpayPaymentId(),
-                    request.getSignature() != null ? request.getSignature() : "sig_" + request.getRazorpayPaymentId()
-            );
-            return ResponseEntity.ok(Map.of("status", "success", "message", "Booking payment verified."));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
-        }
+        bookingService.confirmBookingPayment(
+                request.getRazorpayOrderId(),
+                request.getRazorpayPaymentId(),
+                request.getSignature() != null ? request.getSignature() : "sig_" + request.getRazorpayPaymentId()
+        );
+        return ResponseEntity.ok(Map.of("status", "success", "message", "Booking payment verified."));
     }
 
     @Data

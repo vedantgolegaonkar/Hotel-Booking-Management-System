@@ -1,6 +1,6 @@
+import { bookingService } from '@/lib/services/booking.service';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
-import { api } from '@/lib/api';
 import { AlertCircle, CheckCircle, Calendar, Tag, ArrowLeft } from 'lucide-react';
 import PrintButton from '@/components/PrintButton';
 
@@ -24,7 +24,7 @@ export default async function ConfirmationPage({
     if (!bookingId) {
       errorMsg = 'No booking reference provided in parameters.';
     } else {
-      booking = await api.getBooking(bookingId);
+      booking = await bookingService.getBooking(bookingId);
     }
   } catch (err: any) {
     errorMsg = err.message || 'Failed to load booking verification detail.';

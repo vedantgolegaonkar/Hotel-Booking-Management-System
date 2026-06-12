@@ -1,13 +1,13 @@
+import { roomsService } from '@/lib/services/rooms.service';
 import { use } from 'react';
 import Navbar from '@/components/Navbar';
-import { api } from '@/lib/api';
 import { AlertCircle, Wifi, Coffee, Tv, Landmark, ShieldCheck, User } from 'lucide-react';
 import RoomAvailabilityWidget from '@/components/RoomAvailabilityWidget';
 
 export async function generateMetadata({ params }: { params: Promise<{ categoryId: string }> }) {
   const resolvedParams = await params;
   try {
-    const category = await api.getCategory(Number(resolvedParams.categoryId));
+    const category = await roomsService.getCategory(Number(resolvedParams.categoryId));
     return {
       title: `${category.name} | Somnika Resort`,
       description: category.description,
@@ -28,7 +28,7 @@ export default async function RoomDetailPage({ params }: { params: Promise<{ cat
   let errorMsg = '';
 
   try {
-    category = await api.getCategory(categoryId);
+    category = await roomsService.getCategory(categoryId);
   } catch (err: any) {
     errorMsg = err.message || 'Failed to load room category details.';
   }

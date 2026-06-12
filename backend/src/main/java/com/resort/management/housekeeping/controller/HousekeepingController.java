@@ -50,27 +50,19 @@ public class HousekeepingController {
     @PostMapping("/tasks/{id}/claim")
     @PreAuthorize("hasAnyRole('ROLE_HOUSEKEEPING', 'ROLE_RECEPTIONIST', 'ROLE_MANAGER', 'ROLE_SUPER_ADMIN')")
     public ResponseEntity<?> claimTask(@PathVariable Long id) {
-        try {
-            UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            User staff = userRepository.findByEmail(userDetails.getUsername())
-                    .orElseThrow(() -> new IllegalArgumentException("Authenticated user record not found."));
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User staff = userRepository.findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new IllegalArgumentException("Authenticated user record not found."));
 
-            HousekeepingTask task = housekeepingService.startCleaning(id, staff);
-            return ResponseEntity.ok(HousekeepingTaskResponse.fromEntity(task));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(java.util.Map.of("error", e.getMessage()));
-        }
+        HousekeepingTask task = housekeepingService.startCleaning(id, staff);
+        return ResponseEntity.ok(HousekeepingTaskResponse.fromEntity(task));
     }
 
     @PostMapping("/tasks/{id}/complete")
     @PreAuthorize("hasAnyRole('ROLE_HOUSEKEEPING', 'ROLE_RECEPTIONIST', 'ROLE_MANAGER', 'ROLE_SUPER_ADMIN')")
     public ResponseEntity<?> completeTask(@PathVariable Long id, @RequestBody TaskCompleteRequest request) {
-        try {
-            HousekeepingTask task = housekeepingService.completeCleaning(id, request.getNotes());
-            return ResponseEntity.ok(HousekeepingTaskResponse.fromEntity(task));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(java.util.Map.of("error", e.getMessage()));
-        }
+        HousekeepingTask task = housekeepingService.completeCleaning(id, request.getNotes());
+        return ResponseEntity.ok(HousekeepingTaskResponse.fromEntity(task));
     }
 
     @Data

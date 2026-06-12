@@ -1,8 +1,8 @@
+import { bookingService } from '@/lib/services/booking.service';
 'use client';
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { api } from '@/lib/api';
 import { RoomCategory } from '@/lib/types';
 import { Calendar, Loader2, ArrowRight } from 'lucide-react';
 
@@ -29,7 +29,7 @@ export default function RoomAvailabilityWidget({ categoryId, basePrice }: { cate
     setCheckingAvailability(true);
     setAvailabilityMsg('');
     try {
-      const data = await api.checkAvailability(checkIn, checkOut, guests);
+      const data = await bookingService.checkAvailability(checkIn, checkOut, guests);
       const match = data.categories.find((c: RoomCategory) => c.id === categoryId);
       if (match && match.availableCount > 0) {
         setAvailabilityMsg(`Success! ${match.availableCount} rooms of this category are available for your select dates.`);

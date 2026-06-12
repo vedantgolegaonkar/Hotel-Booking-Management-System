@@ -1,8 +1,10 @@
+import { bookingService } from '@/lib/services/booking.service';
+import { paymentService } from '@/lib/services/payment.service';
+import { couponService } from '@/lib/services/coupon.service';
 'use client';
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { api } from '@/lib/api';
 import { RoomCategory, Booking } from '@/lib/types';
 import { AlertCircle } from 'lucide-react';
 import GuestInfoStep from '@/components/booking/GuestInfoStep';
@@ -85,7 +87,7 @@ export default function BookingWizardClient({
     try {
       const nights = Math.max(1, Math.ceil((new Date(checkOut).getTime() - new Date(checkIn).getTime()) / (1000 * 60 * 60 * 24)) || 1);
       const baseAmount = category.basePrice * nights;
-      const response = await api.validateCoupon(couponCode, baseAmount);
+      const response = await couponService.validateCoupon(couponCode, baseAmount);
       setDiscountAmount(Number(response.discountAmount));
       setCouponApplied(true);
     } catch (e: any) {
@@ -130,7 +132,7 @@ export default function BookingWizardClient({
         couponCode: couponApplied ? couponCode : undefined,
       };
 
-      const booking = await api.initiateBooking(payload);
+      const booking = await bookingService.initiateBooking(payload);
       setBookingResponse(booking);
       setStep(3);
     } catch (err: any) {
@@ -146,7 +148,7 @@ export default function BookingWizardClient({
     setErrorMsg('');
     try {
       if (status === 'SUCCESS') {
-        await api.confirmPaymentDirectly({
+        await paymentService.confirmPaymentDirectly({
           razorpayOrderId: bookingResponse.bookingReference,
           razorpayPaymentId: 'pay_' + Math.random().toString(36).substring(2, 12),
         });

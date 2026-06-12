@@ -44,15 +44,11 @@ public class CouponController {
     @PostMapping
     @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_SUPER_ADMIN')")
     public ResponseEntity<?> createCoupon(@Valid @RequestBody Coupon coupon) {
-        try {
-            if (couponRepository.findByCode(coupon.getCode()).isPresent()) {
-                return ResponseEntity.badRequest().body(java.util.Map.of("error", "Coupon code already exists."));
-            }
-            Coupon saved = couponRepository.save(coupon);
-            return ResponseEntity.status(HttpStatus.CREATED).body(CouponResponse.fromEntity(saved));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(java.util.Map.of("error", e.getMessage()));
+        if (couponRepository.findByCode(coupon.getCode()).isPresent()) {
+            throw new IllegalArgumentException("Coupon code already exists.");
         }
+        Coupon saved = couponRepository.save(coupon);
+        return ResponseEntity.status(HttpStatus.CREATED).body(CouponResponse.fromEntity(saved));
     }
 
     @PutMapping("/{id}")
@@ -90,50 +86,46 @@ public class CouponController {
     public ResponseEntity<?> validateCoupon(
             @RequestParam("code") String code,
             @RequestParam("amount") java.math.BigDecimal amount) {
-        try {
-            java.util.Optional<Coupon> couponOpt = couponRepository.findByCode(code);
-            if (couponOpt.isEmpty()) {
-                return ResponseEntity.badRequest().body(java.util.Map.of("error", "Invalid coupon code."));
-            }
-            Coupon coupon = couponOpt.get();
-            java.time.LocalDate today = java.time.LocalDate.now();
-            if (!Boolean.TRUE.equals(coupon.getIsActive())) {
-                return ResponseEntity.badRequest().body(java.util.Map.of("error", "Coupon is inactive."));
-            }
-            if (today.isBefore(coupon.getStartDate())) {
-                return ResponseEntity.badRequest().body(java.util.Map.of("error", "Coupon is not active yet."));
-            }
-            if (today.isAfter(coupon.getExpiryDate())) {
-                return ResponseEntity.badRequest().body(java.util.Map.of("error", "Coupon has expired."));
-            }
-            if (coupon.getUsageLimit() != null && coupon.getUsedCount() >= coupon.getUsageLimit()) {
-                return ResponseEntity.badRequest().body(java.util.Map.of("error", "Coupon usage limit reached."));
-            }
-            if (coupon.getMinBookingValue() != null && amount.compareTo(coupon.getMinBookingValue()) < 0) {
-                return ResponseEntity.badRequest().body(java.util.Map.of("error", "Minimum booking value of ₹" + coupon.getMinBookingValue() + " required."));
-            }
-
-            java.math.BigDecimal discount = java.math.BigDecimal.ZERO;
-            if ("PERCENTAGE".equalsIgnoreCase(coupon.getDiscountType())) {
-                discount = amount.multiply(coupon.getDiscountValue().divide(new java.math.BigDecimal("100.00")));
-                if (coupon.getMaxDiscountValue() != null && discount.compareTo(coupon.getMaxDiscountValue()) > 0) {
-                    discount = coupon.getMaxDiscountValue();
-                }
-            } else if ("FIXED".equalsIgnoreCase(coupon.getDiscountType())) {
-                discount = coupon.getDiscountValue();
-            }
-            if (discount.compareTo(amount) > 0) {
-                discount = amount;
-            }
-
-            return ResponseEntity.ok(java.util.Map.of(
-                "code", coupon.getCode(),
-                "discountAmount", discount,
-                "discountType", coupon.getDiscountType(),
-                "discountValue", coupon.getDiscountValue()
-            ));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(java.util.Map.of("error", e.getMessage()));
+        java.util.Optional<Coupon> couponOpt = couponRepository.findByCode(code);
+        if (couponOpt.isEmpty()) {
+            throw new IllegalArgumentException("Invalid coupon code.");
         }
+        Coupon coupon = couponOpt.get();
+        java.time.LocalDate today = java.time.LocalDate.now();
+        if (!Boolean.TRUE.equals(coupon.getIsActive())) {
+            throw new IllegalArgumentException("Coupon is inactive.");
+        }
+        if (today.isBefore(coupon.getStartDate())) {
+            throw new IllegalArgumentException("Coupon is not active yet.");
+        }
+        if (today.isAfter(coupon.getExpiryDate())) {
+            throw new IllegalArgumentException("Coupon has expired.");
+        }
+        if (coupon.getUsageLimit() != null && coupon.getUsedCount() >= coupon.getUsageLimit()) {
+            throw new IllegalArgumentException("Coupon usage limit reached.");
+        }
+        if (coupon.getMinBookingValue() != null && amount.compareTo(coupon.getMinBookingValue()) < 0) {
+            throw new IllegalArgumentException("Minimum booking value of ₹" + coupon.getMinBookingValue() + " required.");
+        }
+
+        java.math.BigDecimal discount = java.math.BigDecimal.ZERO;
+        if ("PERCENTAGE".equalsIgnoreCase(coupon.getDiscountType())) {
+            discount = amount.multiply(coupon.getDiscountValue().divide(new java.math.BigDecimal("100.00")));
+            if (coupon.getMaxDiscountValue() != null && discount.compareTo(coupon.getMaxDiscountValue()) > 0) {
+                discount = coupon.getMaxDiscountValue();
+            }
+        } else if ("FIXED".equalsIgnoreCase(coupon.getDiscountType())) {
+            discount = coupon.getDiscountValue();
+        }
+        if (discount.compareTo(amount) > 0) {
+            discount = amount;
+        }
+
+        return ResponseEntity.ok(java.util.Map.of(
+            "code", coupon.getCode(),
+            "discountAmount", discount,
+            "discountType", coupon.getDiscountType(),
+            "discountValue", coupon.getDiscountValue()
+        ));
     }
 }

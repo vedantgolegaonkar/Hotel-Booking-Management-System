@@ -1,5 +1,6 @@
+import { roomsService } from '@/lib/services/rooms.service';
+import { bookingService } from '@/lib/services/booking.service';
 import Navbar from '@/components/Navbar';
-import { api } from '@/lib/api';
 import RoomsClientContent from '@/components/RoomsClientContent';
 import { Suspense } from 'react';
 import { Loader2 } from 'lucide-react';
@@ -21,10 +22,10 @@ export default async function RoomsPage({
   let initialCategories = [];
   try {
     if (checkIn && checkOut) {
-      const data = await api.checkAvailability(checkIn, checkOut, guests || 2);
+      const data = await bookingService.checkAvailability(checkIn, checkOut, guests || 2);
       initialCategories = data.categories || [];
     } else {
-      const data = await api.getCategories();
+      const data = await roomsService.getCategories();
       initialCategories = data || [];
     }
   } catch (err) {

@@ -1,5 +1,5 @@
+import { roomsService } from '@/lib/services/rooms.service';
 import Navbar from '@/components/Navbar';
-import { api } from '@/lib/api';
 import HomeClientWrapper from '@/components/HomeClientWrapper';
 
 export const metadata = {
@@ -10,7 +10,7 @@ export const metadata = {
 export default async function Home() {
   let categories = [];
   try {
-    const data = await api.getCategories();
+    const data = await roomsService.getCategories();
     categories = data || [];
   } catch (e) {
     console.error('Failed to fetch categories on server:', e);

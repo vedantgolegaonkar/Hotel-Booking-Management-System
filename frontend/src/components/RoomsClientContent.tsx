@@ -1,8 +1,8 @@
+import { bookingService } from '@/lib/services/booking.service';
 'use client';
 
 import { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { api } from '@/lib/api';
 import { RoomCategory } from '@/lib/types';
 import { Loader2, AlertCircle, Wifi, Coffee, Tv, Landmark, ArrowRight } from 'lucide-react';
 
@@ -33,7 +33,7 @@ export default function RoomsClientContent({ initialCategories }: { initialCateg
     setLoading(true);
     setErrorMsg('');
     try {
-      const data = await api.checkAvailability(checkIn, checkOut, Number(guests));
+      const data = await bookingService.checkAvailability(checkIn, checkOut, Number(guests));
       setCategories(data.categories || []);
     } catch (err: any) {
       setErrorMsg(err.message || 'Failed to search availability.');

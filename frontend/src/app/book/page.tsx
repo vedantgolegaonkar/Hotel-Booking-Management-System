@@ -1,5 +1,5 @@
+import { roomsService } from '@/lib/services/rooms.service';
 import Navbar from '@/components/Navbar';
-import { api } from '@/lib/api';
 import { AlertCircle } from 'lucide-react';
 import BookingWizardClient from '@/components/BookingWizardClient';
 
@@ -23,7 +23,7 @@ export default async function BookingWizardPage({
   let errorMsg = '';
 
   try {
-    category = await api.getCategory(categoryId);
+    category = await roomsService.getCategory(categoryId);
   } catch (err: any) {
     errorMsg = 'Failed to load booking portal details. Please return to the homepage and try again.';
   }

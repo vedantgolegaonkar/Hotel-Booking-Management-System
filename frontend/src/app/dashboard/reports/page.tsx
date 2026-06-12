@@ -1,7 +1,7 @@
+import { bookingService } from '@/lib/services/booking.service';
 'use client';
 
 import { useState, useEffect } from 'react';
-import { api } from '@/lib/api';
 import { Booking } from '@/lib/types';
 import { Loader2, AlertCircle, TrendingUp, IndianRupee, Users, Percent, FileText, Landmark, ShieldCheck } from 'lucide-react';
 
@@ -18,7 +18,7 @@ export default function ReportsPage() {
     setLoading(true);
     setErrorMsg('');
     try {
-      const data = await api.searchBookings();
+      const data = await bookingService.searchBookings();
       setBookings(data || []);
     } catch (err: any) {
       setErrorMsg(err.message || 'Failed to load report data.');

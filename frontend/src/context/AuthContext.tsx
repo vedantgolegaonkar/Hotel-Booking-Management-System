@@ -1,8 +1,8 @@
+import { authService } from '@/lib/services/auth.service';
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User } from '@/lib/types';
-import { api } from '@/lib/api';
 
 interface AuthContextType {
   user: User | null;
@@ -49,7 +49,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = async (credentials: any) => {
     setLoading(true);
     try {
-      const data = await api.login(credentials);
+      const data = await authService.login(credentials);
       const authenticatedUser: User = {
         id: data.id,
         email: data.email,
@@ -71,7 +71,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const logout = () => {
-    api.logout();
+    authService.logout();
     localStorage.removeItem('user');
     setUser(null);
   };

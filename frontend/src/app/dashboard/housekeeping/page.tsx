@@ -1,7 +1,7 @@
+import { housekeepingService } from '@/lib/services/housekeeping.service';
 'use client';
 
 import { useState, useEffect } from 'react';
-import { api } from '@/lib/api';
 import { HousekeepingTask } from '@/lib/types';
 import { Loader2, AlertCircle, Sparkles, User, RefreshCw, Clipboard, CheckSquare } from 'lucide-react';
 
@@ -25,7 +25,7 @@ export default function HousekeepingPage() {
     setLoading(true);
     setErrorMsg('');
     try {
-      const data = await api.getHousekeepingTasks();
+      const data = await housekeepingService.getHousekeepingTasks();
       setTasks(data || []);
     } catch (err: any) {
       setErrorMsg(err.message || 'Failed to fetch housekeeping tasks.');
@@ -37,7 +37,7 @@ export default function HousekeepingPage() {
   const handleClaim = async (taskId: number) => {
     setErrorMsg('');
     try {
-      await api.claimHousekeepingTask(taskId);
+      await housekeepingService.claimHousekeepingTask(taskId);
       fetchTasks();
     } catch (err: any) {
       setErrorMsg(err.message || 'Failed to claim task.');
@@ -58,7 +58,7 @@ export default function HousekeepingPage() {
     setErrorMsg('');
 
     try {
-      await api.completeHousekeepingTask(selectedTask.id, notes);
+      await housekeepingService.completeHousekeepingTask(selectedTask.id, notes);
       setCompleteModal(false);
       fetchTasks();
     } catch (err: any) {

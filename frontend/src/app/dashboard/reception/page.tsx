@@ -1,7 +1,8 @@
+import { roomsService } from '@/lib/services/rooms.service';
+import { bookingService } from '@/lib/services/booking.service';
 'use client';
 
 import { useState, useEffect } from 'react';
-import { api } from '@/lib/api';
 import { Booking, Room } from '@/lib/types';
 import { Search, Loader2, AlertCircle, Calendar, User, Key, Receipt, FileText } from 'lucide-react';
 import CheckInModal from '@/components/reception/CheckInModal';
@@ -36,7 +37,7 @@ export default function ReceptionPage() {
     setLoading(true);
     setErrorMsg('');
     try {
-      const data = await api.searchBookings(search);
+      const data = await bookingService.searchBookings(search);
       setBookings(data || []);
     } catch (err: any) {
       setErrorMsg(err.message || 'Failed to fetch bookings.');
@@ -55,7 +56,7 @@ export default function ReceptionPage() {
     setCheckInModal(true);
     setErrorMsg('');
     try {
-      const rooms = await api.getAvailableRoomsForCategory(booking.category.id);
+      const rooms = await roomsService.getAvailableRoomsForCategory(booking.category.id);
       setAvailableRooms(rooms || []);
     } catch (err: any) {
       setErrorMsg(err.message || 'Failed to fetch available rooms.');
@@ -68,7 +69,7 @@ export default function ReceptionPage() {
     setErrorMsg('');
 
     try {
-      await api.checkIn(selectedBooking.id, {
+      await bookingService.checkIn(selectedBooking.id, {
         assignedRoomId,
         idProofType,
         idProofUrl,
@@ -94,7 +95,7 @@ export default function ReceptionPage() {
     setErrorMsg('');
 
     try {
-      await api.checkOut(selectedBooking.id, {
+      await bookingService.checkOut(selectedBooking.id, {
         extraIncidentals,
         paymentMethod,
         txRef: txRef || 'tx_' + Math.random().toString(36).substring(2, 12),
@@ -102,7 +103,7 @@ export default function ReceptionPage() {
       setCheckOutModal(false);
       
       // Load full booking with invoice details
-      const updatedBooking = await api.getBooking(selectedBooking.id);
+      const updatedBooking = await bookingService.getBooking(selectedBooking.id);
       setInvoiceViewBooking(updatedBooking);
       fetchBookings();
     } catch (err: any) {
@@ -284,7 +285,7 @@ export default function ReceptionPage() {
                         <button
                           onClick={async () => {
                             try {
-                              const updated = await api.getBooking(booking.id);
+                              const updated = await bookingService.getBooking(booking.id);
                               setInvoiceViewBooking(updated);
                             } catch (e) {
                               console.error(e);

@@ -14,6 +14,9 @@ import java.util.stream.Collectors;
 import com.resort.management.inventory.dto.RoomCategoryResponse;
 import com.resort.management.inventory.dto.RoomResponse;
 
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.CacheEvict;
+
 @RestController
 @RequestMapping("/api/v1/rooms")
 @CrossOrigin(origins = "*")
@@ -26,6 +29,7 @@ public class RoomController {
     private RoomRepository roomRepository;
 
     @GetMapping("/categories")
+    @Cacheable("categories")
     public ResponseEntity<List<RoomCategoryResponse>> getAllCategories() {
         List<RoomCategoryResponse> categories = categoryRepository.findAll().stream()
             .map(RoomCategoryResponse::fromEntity)
@@ -55,6 +59,7 @@ public class RoomController {
 
     @PutMapping("/categories/{id}")
     @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_SUPER_ADMIN')")
+    @CacheEvict(value = "categories", allEntries = true)
     public ResponseEntity<?> updateCategory(@PathVariable Long id, @RequestBody RoomCategory updatedCat) {
         return categoryRepository.findById(id)
                 .map(cat -> {

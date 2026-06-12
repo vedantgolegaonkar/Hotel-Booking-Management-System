@@ -1,8 +1,9 @@
+import { bookingService } from '@/lib/services/booking.service';
+import { paymentService } from '@/lib/services/payment.service';
 'use client';
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { api } from '@/lib/api';
 import { RoomCategory, Booking } from '@/lib/types';
 import { Loader2, AlertCircle, Calendar, Users, CheckCircle, ArrowRight } from 'lucide-react';
 
@@ -49,7 +50,7 @@ export default function WalkInPage() {
     setSelectedCat(null);
     setSuccessBooking(null);
     try {
-      const data = await api.checkAvailability(checkIn, checkOut, guests);
+      const data = await bookingService.checkAvailability(checkIn, checkOut, guests);
       setCategories(data.categories || []);
     } catch (err: any) {
       setErrorMsg(err.message || 'Failed to fetch categories.');
@@ -79,13 +80,13 @@ export default function WalkInPage() {
         stateCode: guestDetails.stateCode,
         gstin: guestDetails.gstin || undefined,
       };
-      const booking = await api.initiateBooking(payload);
+      const booking = await bookingService.initiateBooking(payload);
       // Automatically confirm the walk-in booking since payment is done at the desk (cash/card)
-      await api.confirmPaymentDirectly({
+      await paymentService.confirmPaymentDirectly({
         razorpayOrderId: booking.bookingReference,
         razorpayPaymentId: 'walkin_' + Math.random().toString(36).substring(2, 10),
       });
-      const confirmed = await api.getBooking(booking.id);
+      const confirmed = await bookingService.getBooking(booking.id);
       setSuccessBooking(confirmed);
     } catch (err: any) {
       setErrorMsg(err.message || 'Failed to create reservation.');

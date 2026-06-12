@@ -1,7 +1,7 @@
+import { roomsService } from '@/lib/services/rooms.service';
 'use client';
 
 import { useState, useEffect } from 'react';
-import { api } from '@/lib/api';
 import { RoomCategory } from '@/lib/types';
 import { Loader2, AlertCircle, CheckCircle, Percent, DollarSign, Calendar } from 'lucide-react';
 
@@ -30,7 +30,7 @@ export default function PricingPage() {
     setLoading(true);
     setErrorMsg('');
     try {
-      const data = await api.getCategories();
+      const data = await roomsService.getCategories();
       setCategories(data || []);
     } catch (err: any) {
       setErrorMsg(err.message || 'Failed to fetch room categories.');
@@ -56,7 +56,7 @@ export default function PricingPage() {
         ...cat,
         basePrice: Number(editPrice),
       };
-      await api.updateCategoryPrice(cat.id, payload);
+      await roomsService.updateCategoryPrice(cat.id, payload);
       setSuccessMsg(`Base pricing updated successfully for ${cat.name}!`);
       setEditingCatId(null);
       fetchCategories();

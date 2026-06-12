@@ -35,12 +35,8 @@ public class BookingController {
 
     @PostMapping("/initiate")
     public ResponseEntity<?> initiateBooking(@Valid @RequestBody BookingRequest request) {
-        try {
-            Booking booking = bookingService.initiateBooking(request);
-            return ResponseEntity.status(HttpStatus.CREATED).body(BookingResponse.fromEntity(booking));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(java.util.Map.of("error", e.getMessage()));
-        }
+        Booking booking = bookingService.initiateBooking(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(BookingResponse.fromEntity(booking));
     }
 
     @GetMapping("/{id}")
@@ -77,33 +73,25 @@ public class BookingController {
     @PostMapping("/{id}/check-in")
     @PreAuthorize("hasAnyRole('ROLE_RECEPTIONIST', 'ROLE_MANAGER', 'ROLE_SUPER_ADMIN')")
     public ResponseEntity<?> checkInGuest(@PathVariable UUID id, @Valid @RequestBody CheckInRequest request) {
-        try {
-            Booking booking = bookingService.assignRoomAndCheckIn(
-                    id,
-                    request.getAssignedRoomId(),
-                    request.getIdProofType(),
-                    request.getIdProofUrl()
-            );
-            return ResponseEntity.ok(BookingResponse.fromEntity(booking));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(java.util.Map.of("error", e.getMessage()));
-        }
+        Booking booking = bookingService.assignRoomAndCheckIn(
+                id,
+                request.getAssignedRoomId(),
+                request.getIdProofType(),
+                request.getIdProofUrl()
+        );
+        return ResponseEntity.ok(BookingResponse.fromEntity(booking));
     }
 
     @PostMapping("/{id}/check-out")
     @PreAuthorize("hasAnyRole('ROLE_RECEPTIONIST', 'ROLE_MANAGER', 'ROLE_SUPER_ADMIN')")
     public ResponseEntity<?> checkOutGuest(@PathVariable UUID id, @Valid @RequestBody CheckOutRequest request) {
-        try {
-            Booking booking = bookingService.processCheckOut(
-                    id,
-                    request.getExtraIncidentals(),
-                    request.getPaymentMethod(),
-                    request.getTxRef()
-            );
-            return ResponseEntity.ok(BookingResponse.fromEntity(booking));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(java.util.Map.of("error", e.getMessage()));
-        }
+        Booking booking = bookingService.processCheckOut(
+                id,
+                request.getExtraIncidentals(),
+                request.getPaymentMethod(),
+                request.getTxRef()
+        );
+        return ResponseEntity.ok(BookingResponse.fromEntity(booking));
     }
 
     @Data

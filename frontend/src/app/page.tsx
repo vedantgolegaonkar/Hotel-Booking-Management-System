@@ -2,6 +2,8 @@ import { roomsService } from '@/lib/services/rooms.service';
 import Navbar from '@/components/Navbar';
 import HomeClientWrapper from '@/components/HomeClientWrapper';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: 'Somnika Heritage Resort & Spa | Goa',
   description: 'A sanctuary nestled in the pristine beaches of Goa, blending timeless Portuguese heritage with contemporary Indian hospitality.',

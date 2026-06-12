@@ -5,6 +5,8 @@ import RoomsClientContent from '@/components/RoomsClientContent';
 import { Suspense } from 'react';
 import { Loader2 } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: 'Rooms & Suites | Somnika Resort',
   description: 'Browse our catalog of modern deluxe rooms, family villas, and private suites.',

@@ -4,6 +4,8 @@ import Navbar from '@/components/Navbar';
 import { AlertCircle, Wifi, Coffee, Tv, Landmark, ShieldCheck, User } from 'lucide-react';
 import RoomAvailabilityWidget from '@/components/RoomAvailabilityWidget';
 
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata({ params }: { params: Promise<{ categoryId: string }> }) {
   const resolvedParams = await params;
   try {

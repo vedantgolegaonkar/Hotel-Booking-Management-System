@@ -1,5 +1,6 @@
-import { housekeepingService } from '@/lib/services/housekeeping.service';
 'use client';
+
+import { housekeepingService } from '@/lib/services/housekeeping.service';
 
 import { useState, useEffect } from 'react';
 import { HousekeepingTask } from '@/lib/types';

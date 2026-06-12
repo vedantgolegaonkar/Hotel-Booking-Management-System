@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { AlertCircle, RefreshCcw } from "lucide-react";
 

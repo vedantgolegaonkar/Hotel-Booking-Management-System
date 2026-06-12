@@ -1,7 +1,8 @@
+'use client';
+
 import { bookingService } from '@/lib/services/booking.service';
 import { paymentService } from '@/lib/services/payment.service';
 import { couponService } from '@/lib/services/coupon.service';
-'use client';
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';

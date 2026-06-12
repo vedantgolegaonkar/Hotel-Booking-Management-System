@@ -1,6 +1,7 @@
+'use client';
+
 import { roomsService } from '@/lib/services/rooms.service';
 import { bookingService } from '@/lib/services/booking.service';
-'use client';
 
 import { useState, useEffect } from 'react';
 import { Booking, Room } from '@/lib/types';

@@ -1,5 +1,6 @@
-import { authService } from '@/lib/services/auth.service';
 'use client';
+
+import { authService } from '@/lib/services/auth.service';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User } from '@/lib/types';

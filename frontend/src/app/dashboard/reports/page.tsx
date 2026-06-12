@@ -1,5 +1,6 @@
-import { bookingService } from '@/lib/services/booking.service';
 'use client';
+
+import { bookingService } from '@/lib/services/booking.service';
 
 import { useState, useEffect } from 'react';
 import { Booking } from '@/lib/types';

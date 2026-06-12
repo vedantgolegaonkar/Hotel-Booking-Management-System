@@ -1,5 +1,6 @@
-import { couponService } from '@/lib/services/coupon.service';
 'use client';
+
+import { couponService } from '@/lib/services/coupon.service';
 
 import { useState, useEffect } from 'react';
 import { Loader2, AlertCircle, CheckCircle, Plus, Trash2, Calendar, Tag } from 'lucide-react';

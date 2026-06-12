@@ -1,5 +1,6 @@
-import { roomsService } from '@/lib/services/rooms.service';
 'use client';
+
+import { roomsService } from '@/lib/services/rooms.service';
 
 import { useState, useEffect } from 'react';
 import { RoomCategory } from '@/lib/types';

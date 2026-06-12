@@ -1,8 +1,11 @@
-'use client';
-
 import Navbar from '@/components/Navbar';
-import { motion } from 'framer-motion';
+import { MotionDiv, MotionSpan, MotionH1, MotionP } from '@/components/Animated';
 import { Compass, ShieldCheck, Heart, Award, MapPin, Coffee, Trees, Waves } from 'lucide-react';
+
+export const metadata = {
+  title: 'About Us | Somnika Resort',
+  description: 'Learn about the timeless Portuguese heritage and contemporary Indian hospitality of Somnika Resort.',
+};
 
 export default function AboutPage() {
   return (
@@ -21,30 +24,30 @@ export default function AboutPage() {
         </div>
         
         <div className="mx-auto max-w-4xl px-4 relative z-10 space-y-4">
-          <motion.span 
+          <MotionSpan 
             initial={{ opacity: 0, y: -15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             className="text-xs font-bold uppercase tracking-widest text-gold mb-2 block"
           >
             Our Heritage
-          </motion.span>
-          <motion.h1 
+          </MotionSpan>
+          <MotionH1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.8 }}
             className="font-serif text-4xl sm:text-6xl font-bold tracking-tight"
           >
             The Somnika Philosophy
-          </motion.h1>
-          <motion.p 
+          </MotionH1>
+          <MotionP 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4, duration: 1 }}
             className="text-stone-300 text-sm sm:text-base max-w-xl mx-auto leading-relaxed"
           >
             A sanctuary nestled in the pristine beaches of Goa, blending timeless Portuguese heritage with contemporary Indian hospitality.
-          </motion.p>
+          </MotionP>
         </div>
       </section>
 
@@ -53,7 +56,7 @@ export default function AboutPage() {
         
         {/* Story split grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <motion.div 
+          <MotionDiv 
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -70,9 +73,9 @@ export default function AboutPage() {
             <p className="text-stone-600 text-sm leading-relaxed">
               Our mission is to create custom guest stays where time stands still. From organic spa ingredients grown in our private orchards to custom heritage walks, every detail is handled with personal care.
             </p>
-          </motion.div>
+          </MotionDiv>
 
-          <motion.div 
+          <MotionDiv 
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -84,7 +87,7 @@ export default function AboutPage() {
               alt="Resort Courtyard" 
               className="w-full h-full object-cover"
             />
-          </motion.div>
+          </MotionDiv>
         </div>
 
         {/* Facilities Section */}
@@ -101,7 +104,7 @@ export default function AboutPage() {
               { icon: Trees, title: "Heritage Gardens", desc: "Manicured orchards containing indigenous flora and private seating nooks." },
               { icon: Waves, title: "Lagoon Pools", desc: "Temperature-controlled swimming chambers mirroring standard coastal vistas." }
             ].map((facility, index) => (
-              <motion.div
+              <MotionDiv
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -114,7 +117,7 @@ export default function AboutPage() {
                 </div>
                 <h4 className="font-serif text-lg font-bold text-navy">{facility.title}</h4>
                 <p className="text-xs text-stone-500 leading-relaxed">{facility.desc}</p>
-              </motion.div>
+              </MotionDiv>
             ))}
           </div>
         </div>
@@ -145,7 +148,7 @@ export default function AboutPage() {
         </div>
 
         {/* 3D Walkthrough Feature */}
-        <motion.div 
+        <MotionDiv 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -170,7 +173,7 @@ export default function AboutPage() {
               className="w-full h-full object-cover"
             />
           </div>
-        </motion.div>
+        </MotionDiv>
       </main>
 
       {/* Footer */}

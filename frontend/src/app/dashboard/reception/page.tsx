@@ -3,7 +3,10 @@
 import { useState, useEffect } from 'react';
 import { api } from '@/lib/api';
 import { Booking, Room } from '@/lib/types';
-import { Search, Loader2, AlertCircle, Calendar, User, Key, Receipt, CheckCircle, FileText, CheckCircle2, UserCheck, ShieldAlert } from 'lucide-react';
+import { Search, Loader2, AlertCircle, Calendar, User, Key, Receipt, FileText } from 'lucide-react';
+import CheckInModal from '@/components/reception/CheckInModal';
+import CheckOutModal from '@/components/reception/CheckOutModal';
+import InvoiceViewModal from '@/components/reception/InvoiceViewModal';
 
 export default function ReceptionPage() {
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -16,20 +19,14 @@ export default function ReceptionPage() {
   const [checkInModal, setCheckInModal] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [availableRooms, setAvailableRooms] = useState<Room[]>([]);
-  const [assignedRoomId, setAssignedRoomId] = useState<number | ''>('');
-  const [idProofType, setIdProofType] = useState('AADHAR');
-  const [idProofUrl, setIdProofUrl] = useState('https://id-proofs.resort.com/docs/mock-id.pdf');
   const [submittingCheckIn, setSubmittingCheckIn] = useState(false);
 
   // Check-out Modal
   const [checkOutModal, setCheckOutModal] = useState(false);
-  const [extraIncidentals, setExtraIncidentals] = useState<number | string>(0);
-  const [paymentMethod, setPaymentMethod] = useState('CARD');
-  const [txRef, setTxRef] = useState('');
   const [submittingCheckOut, setSubmittingCheckOut] = useState(false);
 
   // Invoice view after checkout
-  const [invoiceViewBooking, setInvoiceViewBooking] = useState<any | null>(null);
+  const [invoiceViewBooking, setInvoiceViewBooking] = useState<Booking | null>(null);
 
   useEffect(() => {
     fetchBookings();
@@ -56,28 +53,23 @@ export default function ReceptionPage() {
   const openCheckIn = async (booking: Booking) => {
     setSelectedBooking(booking);
     setCheckInModal(true);
-    setAssignedRoomId('');
     setErrorMsg('');
     try {
       const rooms = await api.getAvailableRoomsForCategory(booking.category.id);
       setAvailableRooms(rooms || []);
-      if (rooms && rooms.length > 0) {
-        setAssignedRoomId(rooms[0].id);
-      }
     } catch (err: any) {
       setErrorMsg(err.message || 'Failed to fetch available rooms.');
     }
   };
 
-  const handleCheckInSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!selectedBooking || !assignedRoomId) return;
+  const handleCheckInSubmit = async (assignedRoomId: number, idProofType: string, idProofUrl: string) => {
+    if (!selectedBooking) return;
     setSubmittingCheckIn(true);
     setErrorMsg('');
 
     try {
       await api.checkIn(selectedBooking.id, {
-        assignedRoomId: Number(assignedRoomId),
+        assignedRoomId,
         idProofType,
         idProofUrl,
       });
@@ -93,22 +85,19 @@ export default function ReceptionPage() {
   const openCheckOut = (booking: Booking) => {
     setSelectedBooking(booking);
     setCheckOutModal(true);
-    setExtraIncidentals('0');
-    setTxRef('');
     setErrorMsg('');
   };
 
-  const handleCheckOutSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleCheckOutSubmit = async (extraIncidentals: number, paymentMethod: string, txRef: string) => {
     if (!selectedBooking) return;
     setSubmittingCheckOut(true);
     setErrorMsg('');
 
     try {
-      const checkoutRes = await api.checkOut(selectedBooking.id, {
-        extraIncidentals: Number(extraIncidentals) || 0,
+      await api.checkOut(selectedBooking.id, {
+        extraIncidentals,
         paymentMethod,
-        txRef: txRef.trim() !== '' ? txRef : 'tx_' + Math.random().toString(36).substring(2, 12),
+        txRef: txRef || 'tx_' + Math.random().toString(36).substring(2, 12),
       });
       setCheckOutModal(false);
       
@@ -315,264 +304,31 @@ export default function ReceptionPage() {
         </div>
       )}
 
-      {/* Check-in Modal Overlay */}
       {checkInModal && selectedBooking && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-          <div className="w-full max-w-lg rounded-3xl bg-white overflow-hidden shadow-2xl border border-stone-100 animate-in fade-in zoom-in duration-300">
-            <div className="bg-gold p-6 text-white text-center">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-navy/70 block mb-1">Check-in Process</span>
-              <h3 className="font-serif text-xl font-semibold">Assign Physical Room</h3>
-              <p className="text-gold-hover text-xs mt-1">Guest: {selectedBooking.guest.firstName} {selectedBooking.guest.lastName}</p>
-            </div>
-
-            <form onSubmit={handleCheckInSubmit} className="p-6 space-y-6">
-              {availableRooms.length === 0 ? (
-                <div className="rounded-2xl bg-amber-50 p-4 border border-amber-200 text-xs text-amber-800 leading-relaxed flex gap-2">
-                  <ShieldAlert className="h-5 w-5 text-amber-600 flex-shrink-0" />
-                  <div>
-                    <strong>No Rooms Ready:</strong> There are no physical rooms of category <em>{selectedBooking.category.name}</em> with status <strong>AVAILABLE</strong>. Please check housekeeping status or claim cleaning completion.
-                  </div>
-                </div>
-              ) : (
-                <div>
-                  <label className="text-xs font-bold text-stone-500 uppercase tracking-wider mb-2 block">Available Physical Rooms *</label>
-                  <select
-                    required
-                    value={assignedRoomId}
-                    onChange={(e) => setAssignedRoomId(Number(e.target.value))}
-                    className="w-full rounded-xl border border-stone-200 px-4 py-2.5 text-sm focus:border-gold focus:outline-none"
-                  >
-                    {availableRooms.map((room) => (
-                      <option key={room.id} value={room.id}>
-                        Room {room.roomNumber} (Floor {room.floor})
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              )}
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-xs font-bold text-stone-500 uppercase tracking-wider mb-2 block">ID Proof Type *</label>
-                  <select
-                    value={idProofType}
-                    onChange={(e) => setIdProofType(e.target.value)}
-                    className="w-full rounded-xl border border-stone-200 px-4 py-2.5 text-sm focus:border-gold focus:outline-none"
-                  >
-                    <option value="AADHAR">Aadhar Card</option>
-                    <option value="PASSPORT">Passport</option>
-                    <option value="VOTER_ID">Voter ID</option>
-                    <option value="DRIVING_LICENSE">Driving License</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="text-xs font-bold text-stone-500 uppercase tracking-wider mb-2 block">ID File Attachment Link *</label>
-                  <input
-                    type="text"
-                    required
-                    value={idProofUrl}
-                    onChange={(e) => setIdProofUrl(e.target.value)}
-                    className="w-full rounded-xl border border-stone-200 px-4 py-2.5 text-sm focus:border-gold focus:outline-none"
-                  />
-                </div>
-              </div>
-
-              <div className="flex gap-4 pt-4 border-t border-stone-100 justify-end">
-                <button
-                  type="button"
-                  onClick={() => setCheckInModal(false)}
-                  className="rounded-xl border border-stone-200 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-stone-500 hover:bg-stone-50"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={submittingCheckIn || availableRooms.length === 0}
-                  className="rounded-xl bg-gold hover:bg-gold-hover text-white px-6 py-2.5 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5"
-                >
-                  {submittingCheckIn && <Loader2 className="h-4 w-4 animate-spin" />}
-                  Confirm Check-in
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+        <CheckInModal
+          selectedBooking={selectedBooking}
+          availableRooms={availableRooms}
+          onClose={() => setCheckInModal(false)}
+          onSubmit={handleCheckInSubmit}
+          submitting={submittingCheckIn}
+        />
       )}
 
-      {/* Check-out Modal Overlay */}
       {checkOutModal && selectedBooking && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-          <div className="w-full max-w-lg rounded-3xl bg-white overflow-hidden shadow-2xl border border-stone-100 animate-in fade-in zoom-in duration-300">
-            <div className="bg-navy p-6 text-white text-center">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-gold block mb-1">Check-out Process</span>
-              <h3 className="font-serif text-xl font-semibold">Incidentals & Invoice Settlement</h3>
-              <p className="text-stone-400 text-xs mt-1">Ref: {selectedBooking.bookingReference}</p>
-            </div>
-
-            <form onSubmit={handleCheckOutSubmit} className="p-6 space-y-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-xs font-bold text-stone-500 uppercase tracking-wider mb-2 block">Extra Incidentals (₹)</label>
-                  <input
-                    type="number"
-                    min="0"
-                    value={extraIncidentals}
-                    onChange={(e) => {
-                      let val = e.target.value;
-                      if (/^0[0-9]/.test(val)) {
-                        val = val.replace(/^0+/, '');
-                      }
-                      setExtraIncidentals(val);
-                    }}
-                    className="w-full rounded-xl border border-stone-200 px-4 py-2.5 text-sm focus:border-gold focus:outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="text-xs font-bold text-stone-500 uppercase tracking-wider mb-2 block">Settlement Method *</label>
-                  <select
-                    value={paymentMethod}
-                    onChange={(e) => setPaymentMethod(e.target.value)}
-                    className="w-full rounded-xl border border-stone-200 px-4 py-2.5 text-sm focus:border-gold focus:outline-none"
-                  >
-                    <option value="CARD">Credit/Debit Card</option>
-                    <option value="CASH">Cash Settlement</option>
-                    <option value="UPI">UPI Transfer</option>
-                  </select>
-                </div>
-              </div>
-
-              <div>
-                <label className="text-xs font-bold text-stone-500 uppercase tracking-wider mb-2 block">Transaction Ref (Optional)</label>
-                <input
-                  type="text"
-                  placeholder="e.g. Card Auth Code / UPI Txn ID"
-                  value={txRef}
-                  onChange={(e) => setTxRef(e.target.value)}
-                  className="w-full rounded-xl border border-stone-200 px-4 py-2.5 text-sm focus:border-gold focus:outline-none"
-                />
-              </div>
-
-              <div className="flex gap-4 pt-4 border-t border-stone-100 justify-end">
-                <button
-                  type="button"
-                  onClick={() => setCheckOutModal(false)}
-                  className="rounded-xl border border-stone-200 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-stone-500 hover:bg-stone-50"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={submittingCheckOut}
-                  className="rounded-xl bg-navy hover:bg-navy-light text-white px-6 py-2.5 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5"
-                >
-                  {submittingCheckOut && <Loader2 className="h-4 w-4 animate-spin" />}
-                  Confirm Settlement
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+        <CheckOutModal
+          selectedBooking={selectedBooking}
+          onClose={() => setCheckOutModal(false)}
+          onSubmit={handleCheckOutSubmit}
+          submitting={submittingCheckOut}
+        />
       )}
 
-      {/* Invoice PDF-like View Overlay */}
       {invoiceViewBooking && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 overflow-y-auto">
-          <div className="w-full max-w-2xl rounded-3xl bg-white shadow-2xl border border-stone-100 p-8 my-8 relative animate-in fade-in zoom-in duration-300">
-            {/* Close button */}
-            <button
-              onClick={() => setInvoiceViewBooking(null)}
-              className="absolute top-6 right-6 text-stone-400 hover:text-navy font-bold text-lg"
-            >
-              ✕
-            </button>
-
-            <div className="text-center pb-6 border-b border-stone-100">
-              <span className="font-serif text-2xl font-bold tracking-widest text-navy">SOMNIKA HERITAGE</span>
-              <p className="text-xs text-stone-400 mt-1">SAC Code 996311 - Accommodation Services</p>
-            </div>
-
-            {/* Billing Metadata */}
-            <div className="grid grid-cols-2 gap-4 py-6 text-xs text-stone-600 border-b border-stone-100">
-              <div>
-                <strong>GSTIN Resort:</strong> 30SOMNI1234F1Z1
-              </div>
-              <div className="text-right">
-                <strong>Invoice ID:</strong> {invoiceViewBooking.bookingReference}
-              </div>
-              <div>
-                <strong>Guest Name:</strong> {invoiceViewBooking.guest.firstName} {invoiceViewBooking.guest.lastName}
-              </div>
-              <div className="text-right">
-                <strong>Place of Supply:</strong> Goa (GA)
-              </div>
-              {invoiceViewBooking.guest.gstin && (
-                <div>
-                  <strong>Guest GSTIN:</strong> {invoiceViewBooking.guest.gstin}
-                </div>
-              )}
-            </div>
-
-            {/* Calculations Breakdown */}
-            <div className="py-6 space-y-4 text-sm">
-              <div className="flex justify-between text-navy font-semibold">
-                <span>Room Category Base Tariff</span>
-                <span>₹{invoiceViewBooking.baseAmount.toLocaleString('en-IN')}</span>
-              </div>
-              {invoiceViewBooking.discountAmount > 0 && (
-                <div className="flex justify-between text-success">
-                  <span>Coupon Discount Applied</span>
-                  <span>-₹{invoiceViewBooking.discountAmount.toLocaleString('en-IN')}</span>
-                </div>
-              )}
-
-              {/* GST Splits block */}
-              <div className="pl-4 border-l-2 border-stone-200 text-xs text-stone-500 space-y-2">
-                {invoiceViewBooking.guest.stateCode === 'GA' ? (
-                  <>
-                    <div className="flex justify-between">
-                      <span>Central GST (CGST)</span>
-                      <span>₹{(invoiceViewBooking.taxAmount / 2).toLocaleString('en-IN')}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>State GST (SGST)</span>
-                      <span>₹{(invoiceViewBooking.taxAmount / 2).toLocaleString('en-IN')}</span>
-                    </div>
-                  </>
-                ) : (
-                  <div className="flex justify-between">
-                    <span>Integrated GST (IGST)</span>
-                    <span>₹{invoiceViewBooking.taxAmount.toLocaleString('en-IN')}</span>
-                  </div>
-                )}
-              </div>
-
-              {/* Grand Total */}
-              <div className="flex justify-between font-bold text-navy text-lg pt-4 border-t border-stone-100">
-                <span>Grand Total Settled</span>
-                <span>₹{invoiceViewBooking.grandTotal.toLocaleString('en-IN')}</span>
-              </div>
-            </div>
-
-            {/* Room assignment check */}
-            <div className="rounded-2xl bg-stone-50 p-4 text-[10px] text-stone-500 leading-relaxed border border-stone-100 flex gap-2">
-              <UserCheck className="h-4 w-4 text-gold flex-shrink-0" />
-              <div>
-                <strong>Audit Details:</strong> Stay concluded from {invoiceViewBooking.checkInDate} to {invoiceViewBooking.checkOutDate}. Assigned physical room was <strong>Room {invoiceViewBooking.assignedRooms?.[0]?.roomNumber}</strong>. Room status updated to <strong>CLEANING</strong> to trigger immediate housekeeper assignment.
-              </div>
-            </div>
-
-            <div className="text-center pt-6">
-              <button
-                onClick={() => setInvoiceViewBooking(null)}
-                className="rounded-xl bg-navy hover:bg-navy-light text-white px-6 py-2.5 text-xs font-bold uppercase tracking-wider transition-colors"
-              >
-                Close Invoice View
-              </button>
-            </div>
-          </div>
-        </div>
+        <InvoiceViewModal
+          booking={invoiceViewBooking}
+          onClose={() => setInvoiceViewBooking(null)}
+        />
       )}
-
     </div>
   );
 }

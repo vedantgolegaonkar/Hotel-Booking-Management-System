@@ -1,80 +1,37 @@
-'use client';
-
-import { useState, useEffect, use } from 'react';
-import { useRouter } from 'next/navigation';
+import { use } from 'react';
 import Navbar from '@/components/Navbar';
 import { api } from '@/lib/api';
-import { RoomCategory } from '@/lib/types';
-import { Loader2, AlertCircle, Wifi, Coffee, Tv, Landmark, Calendar, ShieldCheck, ArrowRight, User } from 'lucide-react';
+import { AlertCircle, Wifi, Coffee, Tv, Landmark, ShieldCheck, User } from 'lucide-react';
+import RoomAvailabilityWidget from '@/components/RoomAvailabilityWidget';
 
-export default function RoomDetailPage({ params }: { params: Promise<{ categoryId: string }> }) {
-  const router = useRouter();
-  const resolvedParams = use(params);
+export async function generateMetadata({ params }: { params: Promise<{ categoryId: string }> }) {
+  const resolvedParams = await params;
+  try {
+    const category = await api.getCategory(Number(resolvedParams.categoryId));
+    return {
+      title: `${category.name} | Somnika Resort`,
+      description: category.description,
+    };
+  } catch (e) {
+    return {
+      title: 'Room Details | Somnika Resort',
+      description: 'View our luxury room accommodations.',
+    };
+  }
+}
+
+export default async function RoomDetailPage({ params }: { params: Promise<{ categoryId: string }> }) {
+  const resolvedParams = await params;
   const categoryId = Number(resolvedParams.categoryId);
 
-  const [category, setCategory] = useState<RoomCategory | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [errorMsg, setErrorMsg] = useState('');
+  let category = null;
+  let errorMsg = '';
 
-  // Availability calendar widget
-  const [checkIn, setCheckIn] = useState('');
-  const [checkOut, setCheckOut] = useState('');
-  const [guests, setGuests] = useState(2);
-  const [availabilityMsg, setAvailabilityMsg] = useState('');
-  const [checkingAvailability, setCheckingAvailability] = useState(false);
-
-  useEffect(() => {
-    fetchCategoryDetails();
-    
-    // Set default dates
-    const today = new Date();
-    const tomorrow = new Date();
-    tomorrow.setDate(today.getDate() + 1);
-    setCheckIn(today.toISOString().split('T')[0]);
-    setCheckOut(tomorrow.toISOString().split('T')[0]);
-  }, [categoryId]);
-
-  const fetchCategoryDetails = async () => {
-    setLoading(true);
-    setErrorMsg('');
-    try {
-      const data = await api.getCategory(categoryId);
-      setCategory(data);
-    } catch (err: any) {
-      setErrorMsg(err.message || 'Failed to load room category details.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleCheckAvailability = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setCheckingAvailability(true);
-    setAvailabilityMsg('');
-    try {
-      const data = await api.checkAvailability(checkIn, checkOut, guests);
-      const match = data.categories.find((c: RoomCategory) => c.id === categoryId);
-      if (match && match.availableCount > 0) {
-        setAvailabilityMsg(`Success! ${match.availableCount} rooms of this category are available for your select dates.`);
-      } else {
-        setAvailabilityMsg('Sorry, this category is fully occupied for the selected dates.');
-      }
-    } catch (err: any) {
-      setAvailabilityMsg(err.message || 'Error checking availability.');
-    } finally {
-      setCheckingAvailability(false);
-    }
-  };
-
-  const handleBookRedirect = () => {
-    const query = new URLSearchParams({
-      categoryId: String(categoryId),
-      checkIn,
-      checkOut,
-      guests: String(guests),
-    });
-    router.push(`/book?${query.toString()}`);
-  };
+  try {
+    category = await api.getCategory(categoryId);
+  } catch (err: any) {
+    errorMsg = err.message || 'Failed to load room category details.';
+  }
 
   const amenityIcons: Record<string, any> = {
     'WiFi': Wifi,
@@ -82,20 +39,6 @@ export default function RoomDetailPage({ params }: { params: Promise<{ categoryI
     'Breakfast': Coffee,
     'Private Pool': Landmark,
   };
-
-  if (loading) {
-    return (
-      <div className="flex min-h-screen flex-col bg-stone-50/30">
-        <Navbar />
-        <div className="flex-grow flex items-center justify-center">
-          <div className="text-center space-y-3">
-            <Loader2 className="h-10 w-10 text-gold animate-spin mx-auto" />
-            <span className="text-sm font-semibold text-stone-500 block">Loading category specifications...</span>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   if (errorMsg || !category) {
     return (
@@ -143,7 +86,7 @@ export default function RoomDetailPage({ params }: { params: Promise<{ categoryI
             <div className="pt-8 border-t border-stone-100 space-y-4">
               <h3 className="font-serif text-xl font-bold text-navy">Included Amenities</h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                {category.amenities.map((amenity) => {
+                {category.amenities.map((amenity: string) => {
                   const Icon = amenityIcons[amenity] || Coffee;
                   return (
                     <div key={amenity} className="flex items-center gap-2 px-4 py-3 rounded-2xl bg-white border border-stone-100 shadow-sm text-xs font-semibold text-navy">
@@ -158,88 +101,7 @@ export default function RoomDetailPage({ params }: { params: Promise<{ categoryI
 
           {/* Pricing & Availability Sidebar widget */}
           <div className="space-y-6">
-            <div className="rounded-3xl bg-white border border-stone-100 p-8 shadow-sm space-y-6 h-fit">
-              <div>
-                <span className="text-[10px] text-stone-400 font-bold uppercase tracking-wider block">Rate per Night</span>
-                <span className="text-3xl font-black text-navy">₹{category.basePrice.toLocaleString('en-IN')}</span>
-                <span className="text-[10px] text-stone-400 block mt-1">+ Indian GST (12% / 18% based on tariff slabs)</span>
-              </div>
-
-              {/* Instant check form */}
-              <form onSubmit={handleCheckAvailability} className="space-y-4 border-t border-stone-100 pt-6">
-                <h4 className="font-serif text-base font-semibold text-navy">Check Availability</h4>
-                
-                <div>
-                  <label className="text-[10px] font-bold text-stone-500 uppercase tracking-wider mb-2 block">Check-In</label>
-                  <div className="relative">
-                    <Calendar className="absolute left-3 top-3 h-4 w-4 text-stone-400" />
-                    <input
-                      type="date"
-                      required
-                      min={new Date().toISOString().split('T')[0]}
-                      value={checkIn}
-                      onChange={(e) => setCheckIn(e.target.value)}
-                      className="w-full rounded-xl border border-stone-200 bg-stone-50 pl-10 pr-3 py-2.5 text-xs font-semibold text-navy focus:outline-none"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="text-[10px] font-bold text-stone-500 uppercase tracking-wider mb-2 block">Check-Out</label>
-                  <div className="relative">
-                    <Calendar className="absolute left-3 top-3 h-4 w-4 text-stone-400" />
-                    <input
-                      type="date"
-                      required
-                      min={checkIn || new Date().toISOString().split('T')[0]}
-                      value={checkOut}
-                      onChange={(e) => setCheckOut(e.target.value)}
-                      className="w-full rounded-xl border border-stone-200 bg-stone-50 pl-10 pr-3 py-2.5 text-xs font-semibold text-navy focus:outline-none"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="text-[10px] font-bold text-stone-500 uppercase tracking-wider mb-2 block">Guests Count</label>
-                  <select
-                    value={guests}
-                    onChange={(e) => setGuests(Number(e.target.value))}
-                    className="w-full rounded-xl border border-stone-200 bg-stone-50 px-3 py-2.5 text-xs font-semibold text-navy focus:outline-none"
-                  >
-                    <option value={1}>1 Guest</option>
-                    <option value={2}>2 Guests</option>
-                    <option value={3}>3 Guests</option>
-                    <option value={4}>4 Guests</option>
-                  </select>
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={checkingAvailability}
-                  className="w-full rounded-xl bg-navy hover:bg-navy-light text-white py-3 text-xs font-semibold uppercase tracking-widest transition-colors flex items-center justify-center gap-1.5"
-                >
-                  {checkingAvailability ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  ) : (
-                    'Check Dates'
-                  )}
-                </button>
-              </form>
-
-              {availabilityMsg && (
-                <div className="p-3.5 rounded-2xl bg-stone-50 border border-stone-100 text-xs text-navy space-y-3">
-                  <p className="leading-relaxed font-semibold">{availabilityMsg}</p>
-                  {availabilityMsg.startsWith('Success') && (
-                    <button
-                      onClick={handleBookRedirect}
-                      className="w-full rounded-xl bg-gold hover:bg-gold-hover text-white py-2.5 text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5"
-                    >
-                      Book This Stay <ArrowRight className="h-3.5 w-3.5" />
-                    </button>
-                  )}
-                </div>
-              )}
-            </div>
+            <RoomAvailabilityWidget categoryId={categoryId} basePrice={category.basePrice} />
 
             <div className="rounded-3xl bg-stone-50 border border-stone-100 p-6 text-[10px] text-stone-500 leading-relaxed flex gap-2">
               <ShieldCheck className="h-4 w-4 text-gold flex-shrink-0" />

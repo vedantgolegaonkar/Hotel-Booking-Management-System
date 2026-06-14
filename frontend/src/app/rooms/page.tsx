@@ -25,10 +25,10 @@ export default async function RoomsPage({
   try {
     if (checkIn && checkOut) {
       const data = await bookingService.checkAvailability(checkIn, checkOut, guests || 2);
-      initialCategories = data.categories || [];
+      initialCategories = data?.categories || data?.content || (Array.isArray(data) ? data : []);
     } else {
       const data = await roomsService.getCategories();
-      initialCategories = data || [];
+      initialCategories = data?.content || (Array.isArray(data) ? data : []);
     }
   } catch (err) {
     console.error('Failed to fetch initial categories on server:', err);

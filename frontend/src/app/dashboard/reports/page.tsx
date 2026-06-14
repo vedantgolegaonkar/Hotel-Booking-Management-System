@@ -20,7 +20,7 @@ export default function ReportsPage() {
     setErrorMsg('');
     try {
       const data = await bookingService.searchBookings();
-      setBookings(data || []);
+      setBookings(data?.content || (Array.isArray(data) ? data : []));
     } catch (err: any) {
       setErrorMsg(err.message || 'Failed to load report data.');
     } finally {

@@ -47,7 +47,7 @@ export default function CouponsPage() {
     setErrorMsg('');
     try {
       const data = await couponService.getCoupons();
-      setCoupons(data || []);
+      setCoupons(data?.content || (Array.isArray(data) ? data : []));
     } catch (err: any) {
       setErrorMsg(err.message || 'Failed to fetch coupons.');
     } finally {

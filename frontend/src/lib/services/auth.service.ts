@@ -4,7 +4,10 @@ export const authService = {
   login: async (credentials: any) => {
     const res = await fetch(`${API_BASE_URL}/auth/login`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      },
       credentials: 'include',
       body: JSON.stringify(credentials),
     });
@@ -18,6 +21,7 @@ export const authService = {
   logout: async () => {
     await fetch(`${API_BASE_URL}/auth/logout`, {
       method: 'POST',
+      headers: { 'X-Requested-With': 'XMLHttpRequest' },
       credentials: 'include',
     }).catch(() => {}); // Fire and forget
   },

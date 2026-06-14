@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
-import { Compass, CalendarDays, ClipboardList, BarChart3, LogOut, User as UserIcon, Tag, Shield, PlusCircle, X } from 'lucide-react';
+import { Compass, CalendarDays, ClipboardList, BarChart3, LogOut, User as UserIcon, Tag, Shield, PlusCircle, X, Utensils, Coffee, ListChecks, Globe } from 'lucide-react';
 
 interface DashboardSidebarProps {
   isOpen: boolean;
@@ -57,6 +57,36 @@ export default function DashboardSidebar({ isOpen, onClose }: DashboardSidebarPr
     {
       name: 'Pricing Rates',
       path: '/dashboard/pricing',
+      icon: BarChart3,
+      visible: isManagerOrAdmin,
+    },
+    {
+      name: 'Rest. Reservations',
+      path: '/dashboard/restaurant/reservations',
+      icon: Utensils,
+      visible: isManagerOrAdmin || isReceptionist,
+    },
+    {
+      name: 'Rest. Categories',
+      path: '/dashboard/restaurant/categories',
+      icon: ListChecks,
+      visible: isManagerOrAdmin,
+    },
+    {
+      name: 'Rest. Tables',
+      path: '/dashboard/restaurant/tables',
+      icon: Coffee,
+      visible: isManagerOrAdmin,
+    },
+    {
+      name: 'Menu Manager',
+      path: '/dashboard/restaurant/menu',
+      icon: Coffee,
+      visible: isManagerOrAdmin,
+    },
+    {
+      name: 'Rest. Reports',
+      path: '/dashboard/restaurant/reports',
       icon: BarChart3,
       visible: isManagerOrAdmin,
     },
@@ -142,10 +172,17 @@ export default function DashboardSidebar({ isOpen, onClose }: DashboardSidebarPr
       </nav>
 
       {/* Sidebar Footer */}
-      <div className="p-4 border-t border-navy-light">
+      <div className="p-4 border-t border-navy-light space-y-1">
+        <Link
+          href="/"
+          className="flex w-full items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-stone-300 hover:bg-navy-light hover:text-white transition-colors group"
+        >
+          <Globe className="h-5 w-5 text-stone-400 group-hover:text-white" />
+          Public Website
+        </Link>
         <button
           onClick={handleLogout}
-          className="flex w-full items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-stone-300 hover:bg-red-950/20 hover:text-red-400 transition-colors"
+          className="flex w-full items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-stone-300 hover:bg-red-950/20 hover:text-red-400 transition-colors group"
         >
           <LogOut className="h-5 w-5 text-stone-400 group-hover:text-red-400" />
           Sign Out

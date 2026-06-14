@@ -22,6 +22,9 @@ public interface BookingRepository extends JpaRepository<Booking, UUID> {
     List<Booking> findByBookingStatusAndCreatedAtBefore(String status, LocalDateTime time);
 
     @EntityGraph(attributePaths = {"guest", "category", "coupon"})
+    List<Booking> findByGuestEmailOrderByCreatedAtDesc(String email);
+
+    @EntityGraph(attributePaths = {"guest", "category", "coupon"})
     @Query("SELECT b FROM Booking b WHERE LOWER(b.guest.firstName) LIKE LOWER(concat('%', :search, '%')) " +
            "OR LOWER(b.guest.lastName) LIKE LOWER(concat('%', :search, '%')) " +
            "OR LOWER(b.bookingReference) LIKE LOWER(concat('%', :search, '%'))")

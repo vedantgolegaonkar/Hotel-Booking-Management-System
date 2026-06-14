@@ -32,7 +32,7 @@ export default function PricingPage() {
     setErrorMsg('');
     try {
       const data = await roomsService.getCategories();
-      setCategories(data || []);
+      setCategories(data?.content || (Array.isArray(data) ? data : []));
     } catch (err: any) {
       setErrorMsg(err.message || 'Failed to fetch room categories.');
     } finally {

@@ -47,6 +47,15 @@ public class BookingController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/customer/{email}")
+    @PreAuthorize("hasAnyRole('ROLE_CUSTOMER', 'ROLE_RECEPTIONIST', 'ROLE_MANAGER', 'ROLE_SUPER_ADMIN')")
+    public ResponseEntity<List<BookingResponse>> getBookingsByCustomer(@PathVariable String email) {
+        List<BookingResponse> responses = bookingRepository.findByGuestEmailOrderByCreatedAtDesc(email).stream()
+            .map(BookingResponse::fromEntity)
+            .collect(Collectors.toList());
+        return ResponseEntity.ok(responses);
+    }
+
     @GetMapping
     @PreAuthorize("hasAnyRole('ROLE_RECEPTIONIST', 'ROLE_MANAGER', 'ROLE_SUPER_ADMIN')")
     public ResponseEntity<PaginatedResponse<BookingResponse>> searchBookings(

@@ -52,7 +52,7 @@ export default function WalkInPage() {
     setSuccessBooking(null);
     try {
       const data = await bookingService.checkAvailability(checkIn, checkOut, guests);
-      setCategories(data.categories || []);
+      setCategories(data?.categories || data?.content || (Array.isArray(data) ? data : []));
     } catch (err: any) {
       setErrorMsg(err.message || 'Failed to fetch categories.');
     } finally {

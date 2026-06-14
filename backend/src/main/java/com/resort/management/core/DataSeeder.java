@@ -57,6 +57,10 @@ public class DataSeeder implements CommandLineRunner {
             roleRepository.save(Role.builder().name("ROLE_HOUSEKEEPING").description("Housekeeping clean team").build());
             roleRepository.save(Role.builder().name("ROLE_SUPER_ADMIN").description("System administrator").build());
         }
+        
+        if (roleRepository.findByName("ROLE_CUSTOMER").isEmpty()) {
+            roleRepository.save(Role.builder().name("ROLE_CUSTOMER").description("Restaurant and Hotel Customer").build());
+        }
 
         // Fetch roles for user seeding
         // Fetch roles for user seeding

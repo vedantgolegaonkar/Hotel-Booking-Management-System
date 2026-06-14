@@ -13,7 +13,7 @@ export default async function Home() {
   let categories = [];
   try {
     const data = await roomsService.getCategories();
-    categories = data || [];
+    categories = data?.content || (Array.isArray(data) ? data : []);
   } catch (e) {
     console.error('Failed to fetch categories on server:', e);
   }

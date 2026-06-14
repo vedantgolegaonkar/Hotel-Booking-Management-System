@@ -39,3 +39,4 @@ out/
 # env files
 .env*
 !.env.example
+run.log

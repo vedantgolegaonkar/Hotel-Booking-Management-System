@@ -27,7 +27,7 @@ export default function HousekeepingPage() {
     setErrorMsg('');
     try {
       const data = await housekeepingService.getHousekeepingTasks();
-      setTasks(data || []);
+      setTasks(data?.content || (Array.isArray(data) ? data : []));
     } catch (err: any) {
       setErrorMsg(err.message || 'Failed to fetch housekeeping tasks.');
     } finally {

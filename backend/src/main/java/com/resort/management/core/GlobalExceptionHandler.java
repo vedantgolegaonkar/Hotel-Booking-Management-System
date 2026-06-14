@@ -38,6 +38,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(errors);
     }
 
+    @ExceptionHandler(org.springframework.security.core.AuthenticationException.class)
+    public ResponseEntity<Map<String, String>> handleAuthenticationException(org.springframework.security.core.AuthenticationException ex) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("error", "Invalid email or password.");
+        return ResponseEntity.status(org.springframework.http.HttpStatus.UNAUTHORIZED).body(errors);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, String>> handleGenericException(Exception ex) {
         // Log the actual exception internally so developers can debug it

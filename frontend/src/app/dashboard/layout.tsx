@@ -18,6 +18,8 @@ export default function DashboardLayout({
   useEffect(() => {
     if (!loading && !user) {
       router.push('/login');
+    } else if (!loading && user && user.roles.includes('ROLE_CUSTOMER') && !user.roles.includes('ROLE_MANAGER') && !user.roles.includes('ROLE_RECEPTIONIST') && !user.roles.includes('ROLE_SUPER_ADMIN')) {
+      router.push('/customer/reservations');
     }
   }, [user, loading, router]);
 

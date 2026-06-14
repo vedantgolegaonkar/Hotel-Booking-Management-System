@@ -39,7 +39,7 @@ export default function ReceptionPage() {
     setErrorMsg('');
     try {
       const data = await bookingService.searchBookings(search);
-      setBookings(data || []);
+      setBookings(data?.content || (Array.isArray(data) ? data : []));
     } catch (err: any) {
       setErrorMsg(err.message || 'Failed to fetch bookings.');
     } finally {

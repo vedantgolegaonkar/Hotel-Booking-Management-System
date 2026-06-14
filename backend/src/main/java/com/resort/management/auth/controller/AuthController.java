@@ -9,6 +9,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import com.resort.management.auth.model.Role;
+import com.resort.management.auth.model.User;
+import com.resort.management.auth.repository.RoleRepository;
+import com.resort.management.auth.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import java.util.HashSet;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,6 +43,43 @@ public class AuthController {
 
     @Autowired
     private RefreshTokenService refreshTokenService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
+    private PasswordEncoder encoder;
+
+    @PostMapping("/register/customer")
+    public ResponseEntity<?> registerCustomer(@Valid @RequestBody RegisterRequest signUpRequest) {
+        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+            return ResponseEntity.badRequest().body("Error: Email is already in use!");
+        }
+        if (userRepository.existsByMobile(signUpRequest.getMobile())) {
+            return ResponseEntity.badRequest().body("Error: Mobile number is already in use!");
+        }
+
+        User user = User.builder()
+                .firstName(signUpRequest.getFirstName())
+                .lastName(signUpRequest.getLastName())
+                .email(signUpRequest.getEmail())
+                .mobile(signUpRequest.getMobile())
+                .password(encoder.encode(signUpRequest.getPassword()))
+                .isActive(true)
+                .build();
+
+        Set<Role> roles = new HashSet<>();
+        Role customerRole = roleRepository.findByName("ROLE_CUSTOMER")
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        roles.add(customerRole);
+        user.setRoles(roles);
+
+        userRepository.save(user);
+        return ResponseEntity.ok("Customer registered successfully!");
+    }
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -133,5 +177,19 @@ public class AuthController {
             this.mobile = mobile;
             this.roles = roles;
         }
+    }
+
+    @Data
+    public static class RegisterRequest {
+        @NotBlank
+        private String firstName;
+        @NotBlank
+        private String lastName;
+        @NotBlank
+        private String email;
+        @NotBlank
+        private String mobile;
+        @NotBlank
+        private String password;
     }
 }

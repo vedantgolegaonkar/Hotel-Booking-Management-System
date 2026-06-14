@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
+import com.resort.management.auth.model.User;
 
 @Service
 public class RefreshTokenService {

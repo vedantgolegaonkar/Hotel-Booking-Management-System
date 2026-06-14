@@ -28,10 +28,14 @@ public class RefreshTokenService {
         return refreshTokenRepository.findByToken(token);
     }
 
+    @Transactional
     public RefreshToken createRefreshToken(UUID userId) {
-        RefreshToken refreshToken = new RefreshToken();
+        User user = userRepository.findById(userId).get();
+        // Delete existing token if present to prevent @OneToOne unique constraint violation on re-login
+        refreshTokenRepository.deleteByUser(user);
 
-        refreshToken.setUser(userRepository.findById(userId).get());
+        RefreshToken refreshToken = new RefreshToken();
+        refreshToken.setUser(user);
         refreshToken.setExpiryDate(Instant.now().plusMillis(refreshTokenDurationMs));
         refreshToken.setToken(UUID.randomUUID().toString());
 

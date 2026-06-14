@@ -48,7 +48,6 @@ public class SecurityConfig {
         return new RateLimitFilter();
     }
 
-    @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());

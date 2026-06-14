@@ -175,10 +175,10 @@ export default function DashboardSidebar({ isOpen, onClose }: DashboardSidebarPr
       <div className="p-4 border-t border-navy-light space-y-1">
         <Link
           href="/"
-          className="flex w-full items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-stone-300 hover:bg-navy-light hover:text-white transition-colors group"
+          className="mb-2 flex w-full items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-r from-gold to-gold-hover text-sm font-bold tracking-wide text-white shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 group"
         >
-          <Globe className="h-5 w-5 text-stone-400 group-hover:text-white" />
-          Public Website
+          <Globe className="h-5 w-5 transition-transform duration-500 group-hover:rotate-180" />
+          Explore Website
         </Link>
         <button
           onClick={handleLogout}

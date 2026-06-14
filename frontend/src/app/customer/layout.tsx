@@ -93,9 +93,9 @@ export default function CustomerLayout({ children }: { children: React.ReactNode
         </nav>
 
         <div className="p-4 border-t border-stone-100 space-y-1">
-          <Link href="/" className="flex w-full items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-stone-500 hover:bg-stone-100 hover:text-navy transition-colors">
-            <Globe className="h-5 w-5" />
-            Public Website
+          <Link href="/" className="mb-2 flex w-full items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-r from-gold to-gold-hover text-sm font-bold tracking-wide text-white shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 group">
+            <Globe className="h-5 w-5 transition-transform duration-500 group-hover:rotate-180" />
+            Explore Website
           </Link>
           <button onClick={handleLogout} className="flex w-full items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-stone-500 hover:bg-red-50 hover:text-red-500 transition-colors">
             <LogOut className="h-5 w-5" />

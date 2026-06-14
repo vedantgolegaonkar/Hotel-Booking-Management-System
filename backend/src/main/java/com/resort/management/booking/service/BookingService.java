@@ -134,11 +134,11 @@ public class BookingService {
             if (optCoupon.isPresent()) {
                 coupon = optCoupon.get();
                 // Validate Coupon
-                if (coupon.getIsActive() &&
-                    !LocalDate.now().isBefore(coupon.getStartDate()) &&
-                    !LocalDate.now().isAfter(coupon.getExpiryDate()) &&
+                if (Boolean.TRUE.equals(coupon.getIsActive()) &&
+                    (coupon.getStartDate() == null || !LocalDate.now().isBefore(coupon.getStartDate())) &&
+                    (coupon.getExpiryDate() == null || !LocalDate.now().isAfter(coupon.getExpiryDate())) &&
                     (coupon.getUsageLimit() == null || coupon.getUsedCount() < coupon.getUsageLimit()) &&
-                    basePrice.compareTo(coupon.getMinBookingValue()) >= 0) {
+                    (coupon.getMinBookingValue() == null || basePrice.compareTo(coupon.getMinBookingValue()) >= 0)) {
 
                     if ("PERCENTAGE".equals(coupon.getDiscountType())) {
                         discount = basePrice.multiply(coupon.getDiscountValue().divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP));

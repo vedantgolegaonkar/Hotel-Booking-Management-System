@@ -86,7 +86,7 @@ public class CouponController {
     public ResponseEntity<?> validateCoupon(
             @RequestParam("code") String code,
             @RequestParam("amount") java.math.BigDecimal amount) {
-        java.util.Optional<Coupon> couponOpt = couponRepository.findByCode(code);
+        java.util.Optional<Coupon> couponOpt = couponRepository.findByCode(code.trim().toUpperCase());
         if (couponOpt.isEmpty()) {
             throw new IllegalArgumentException("Invalid coupon code.");
         }
@@ -95,10 +95,10 @@ public class CouponController {
         if (!Boolean.TRUE.equals(coupon.getIsActive())) {
             throw new IllegalArgumentException("Coupon is inactive.");
         }
-        if (today.isBefore(coupon.getStartDate())) {
+        if (coupon.getStartDate() != null && today.isBefore(coupon.getStartDate())) {
             throw new IllegalArgumentException("Coupon is not active yet.");
         }
-        if (today.isAfter(coupon.getExpiryDate())) {
+        if (coupon.getExpiryDate() != null && today.isAfter(coupon.getExpiryDate())) {
             throw new IllegalArgumentException("Coupon has expired.");
         }
         if (coupon.getUsageLimit() != null && coupon.getUsedCount() >= coupon.getUsageLimit()) {

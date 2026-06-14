@@ -68,10 +68,10 @@ public class DataSeeder implements CommandLineRunner {
         Role receptionistRole = roleRepository.findByName("ROLE_RECEPTIONIST").orElseThrow();
         Role housekeepingRole = roleRepository.findByName("ROLE_HOUSEKEEPING").orElseThrow();
         Role managerRole = roleRepository.findByName("ROLE_MANAGER").orElseThrow();
+        Role customerRole = roleRepository.findByName("ROLE_CUSTOMER").orElseThrow();
 
-        // 2. Seed Users
-        if (userRepository.count() == 0) {
-            // Admin / Manager
+        // 2. Seed Users individually to ensure they exist across environments
+        if (userRepository.findByEmail("manager@resort.com").isEmpty()) {
             userRepository.save(User.builder()
                     .email("manager@resort.com")
                     .password(encoder.encode("password"))
@@ -80,8 +80,9 @@ public class DataSeeder implements CommandLineRunner {
                     .mobile("9999999999")
                     .roles(Set.of(managerRole, superAdminRole))
                     .build());
+        }
 
-            // Receptionist
+        if (userRepository.findByEmail("receptionist@resort.com").isEmpty()) {
             userRepository.save(User.builder()
                     .email("receptionist@resort.com")
                     .password(encoder.encode("password"))
@@ -90,8 +91,9 @@ public class DataSeeder implements CommandLineRunner {
                     .mobile("8888888888")
                     .roles(Set.of(receptionistRole))
                     .build());
+        }
 
-            // Housekeeper
+        if (userRepository.findByEmail("cleaner@resort.com").isEmpty()) {
             userRepository.save(User.builder()
                     .email("cleaner@resort.com")
                     .password(encoder.encode("password"))
@@ -100,6 +102,27 @@ public class DataSeeder implements CommandLineRunner {
                     .mobile("7777777777")
                     .roles(Set.of(housekeepingRole))
                     .build());
+        }
+        
+        // Always ensure vedant@gmail.com exists as a test guest account
+        if (userRepository.findByEmail("vedant@gmail.com").isEmpty()) {
+            userRepository.save(User.builder()
+                    .email("vedant@gmail.com")
+                    .password(encoder.encode("password"))
+                    .firstName("Vedant")
+                    .lastName("Guest")
+                    .mobile("1111111111")
+                    .roles(Set.of(customerRole))
+                    .build());
+        }
+
+        // 2b. Auto-Migrate any legacy accounts with NULL or plain text passwords
+        List<User> allUsers = userRepository.findAll();
+        for (User u : allUsers) {
+            if (u.getPassword() == null || !u.getPassword().startsWith("$2a$")) {
+                u.setPassword(encoder.encode("password"));
+                userRepository.save(u);
+            }
         }
 
         // 3. Seed Room Categories

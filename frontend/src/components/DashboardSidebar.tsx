@@ -177,7 +177,6 @@ export default function DashboardSidebar({ isOpen, onClose }: DashboardSidebarPr
           href="/"
           className="mb-2 flex w-full items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-r from-gold to-gold-hover text-sm font-bold tracking-wide text-white shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 group"
         >
-          <Globe className="h-5 w-5 transition-transform duration-500 group-hover:rotate-180" />
           Explore Website
         </Link>
         <button

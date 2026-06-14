@@ -15,11 +15,12 @@ export const metadata = {
 export default async function RoomsPage({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const checkIn = typeof searchParams.checkIn === 'string' ? searchParams.checkIn : undefined;
-  const checkOut = typeof searchParams.checkOut === 'string' ? searchParams.checkOut : undefined;
-  const guests = typeof searchParams.guests === 'string' ? Number(searchParams.guests) : undefined;
+  const resolvedParams = await searchParams;
+  const checkIn = typeof resolvedParams.checkIn === 'string' ? resolvedParams.checkIn : undefined;
+  const checkOut = typeof resolvedParams.checkOut === 'string' ? resolvedParams.checkOut : undefined;
+  const guests = typeof resolvedParams.guests === 'string' ? Number(resolvedParams.guests) : undefined;
 
   let initialCategories = [];
   try {

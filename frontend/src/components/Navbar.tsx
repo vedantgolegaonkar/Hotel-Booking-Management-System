@@ -45,10 +45,10 @@ export default function Navbar() {
             {user ? (
               <div className="flex items-center gap-3">
                 <span className="hidden xl:inline text-xs font-semibold text-stone-500 uppercase tracking-wider">
-                  Staff: {user.firstName}
+                  Hi {user.firstName}
                 </span>
                 <Link
-                  href="/dashboard/reception"
+                  href={user.roles?.includes('ROLE_CUSTOMER') ? '/customer/bookings' : '/dashboard/reception'}
                   className="p-2 text-navy hover:text-gold transition-colors rounded-full hover:bg-stone-50"
                   title="Dashboard"
                 >
@@ -59,7 +59,7 @@ export default function Navbar() {
                   className="p-2 text-stone-400 hover:text-error transition-colors rounded-full hover:bg-stone-50"
                   title="Logout"
                 >
-                  <LogOut className="h-5 w-5" />
+                  <LogOut className="h-5 w-5 text-red-500 cursor-pointer" />
                 </button>
               </div>
             ) : (
@@ -148,7 +148,7 @@ export default function Navbar() {
                 </div>
                 <div className="flex gap-2">
                   <Link
-                    href="/dashboard/reception"
+                    href={user.roles?.includes('ROLE_CUSTOMER') ? '/customer/bookings' : '/dashboard/reception'}
                     onClick={() => setIsMenuOpen(false)}
                     className="flex-1 flex items-center justify-center gap-1.5 rounded-xl border border-stone-200 bg-stone-50 py-3 text-xs font-bold uppercase tracking-wider text-navy hover:bg-stone-100 transition-all"
                   >
